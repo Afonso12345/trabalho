@@ -9,13 +9,20 @@ typedef struct No{
     struct No* prox;
 }lista;
 
+typedef struct Node{
+    int operat;
+    float media;
+    struct Node* proxx;
+}media;
+
 typedef struct Nod
 {
     struct Nod* prim;
     struct Nod* ultimo;
 }links;
+void adicionarMedia(media **ref, int a, float b);
 int contador(lista* r, int a);
-void adicionar(lista**ref, int a, int b, int c);
+void adicionar(lista** ref, int a, int b, int c);
 /*lista *criaA(lista *insert,lista *novo)
 {
     novo->prox = insert->prox;
@@ -31,31 +38,113 @@ void printi(lista *head)
         temp = temp->prox;
     }
 }
-/*lista *cria(int a,int b,int c){
-    lista *result = malloc(sizeof(lista));
-    result->opera = a;
-    result->mach = b;
-    result->vmach = c;
-    result->prox = NULL;
-    return result;
-}
-lista *find(lista *cabeca, int valor)
-{
-    lista* tmp = cabeca;
-    while(tmp != NULL)
-    {
-        if(tmp->mach == valor)
-        {
-            return tmp;
-        }
-        tmp = tmp->prox;
-    }
-    return NULL;
 
-}*/
+void ficheiros
+
+void adicionarMedia(media **ref, int a, float b)
+{
+    media *new= malloc(sizeof(media));
+    media *last = *ref;
+    new->operat = a;
+    new->media = b;
+    new->proxx = NULL;
+
+    if(*ref == NULL)
+    {
+        *ref = new;
+        
+        return;
+    } 
+    while(last->proxx != NULL)
+    {
+        last = last->proxx;
+    }
+    last->proxx = new;
+    return;
+}
+void calcMedia(lista **ref, media **nodes)
+{   
+    lista *list = *ref;
+    media *node = *nodes;
+    int count = 0, soma = 0;
+    float avg = 0;
+
+    while(list != NULL)
+    {
+        if(list->prox != NULL && list->opera == list->prox->opera)
+        {
+            soma += list->vmach;
+            count++;
+        }
+        if(list->prox == NULL || (list->prox != NULL && list->opera != list->prox->opera))
+        {
+            count ++;
+            soma += list->vmach;
+            avg = (float)soma/count;
+            adicionarMedia(&node, list->opera, avg);
+            avg = 0;
+            soma = 0;
+            count = 0;
+        }
+
+        list = list->prox;
+    }
+    while(node != NULL)
+    {
+        printf("Opera:%d  Media:%.2f ", node->operat, node->media);
+
+        node = node->proxx;
+    }
+
+}
+void calcMin(lista **ref)
+{
+    int velocidade = 0;
+    lista *node = *ref;
+    lista *nova2 = NULL;
+    
+
+    while(node != NULL)
+    {
+        if(node->prox != NULL && node->vmach < node->prox->vmach && node->opera == node->prox->opera)
+        {
+            if(velocidade >= node->vmach || velocidade == 0)
+            velocidade = node->vmach;
+        }
+        else if(node->prox != NULL && node->vmach > node->prox->vmach && node->opera == node->prox->opera)
+        {
+
+            velocidade = node->prox->vmach;
+        }
+        /*if(node->vmach > velocidade && node->prox == NULL)
+        {
+            velocidade = node->vmach;
+        }*/
+        if(node->prox == NULL || (node->prox != NULL && node->opera != node->prox->opera))
+        {
+
+            if(velocidade > node->vmach)
+            {
+            velocidade = node->vmach;
+            }
+            adicionar(&nova2, 1, 1, velocidade);
+            velocidade = 0;
+        }
+       
+        node = node->prox;
+    }
+    while(nova2 != NULL)
+    {
+        printf("Velocidade: %d", nova2->vmach);
+
+
+        nova2 = nova2->prox;
+    }
+}
+
 void calcMax(lista **ref)
 {
-    int velocidade;
+    int velocidade=0;
     lista *node = *ref;
     lista *nova = NULL;
     
@@ -65,19 +154,34 @@ void calcMax(lista **ref)
         if(node->prox != NULL && node->vmach > node->prox->vmach && node->opera == node->prox->opera)
         {
             velocidade = node->vmach;
-            printf("%d", velocidade);
         }
-        if(node->vmach > velocidade && node->prox == NULL)
+        else if(node->prox != NULL && node->vmach < node->prox->vmach && node->opera == node->prox->opera)
+        {
+            velocidade = node->prox->vmach;
+        }
+        /*if(node->vmach > velocidade && node->prox == NULL)
         {
             velocidade = node->vmach;
-            printf("%d", velocidade);
-        }
-        if(node->opera != node->prox->opera  || node->prox == NULL)
+        }*/
+        if(node->prox == NULL || (node->prox != NULL && node->opera != node->prox->opera))
         {
-            adicionar(&nova, 0, 0, velocidade);
+
+            if(velocidade < node->vmach)
+            {
+            velocidade = node->vmach;
+            }
+            adicionar(&nova, 1, 1, velocidade);
+            velocidade = 0;
         }
        
         node = node->prox;
+    }
+    while(nova != NULL)
+    {
+        printf("Velocidade: %d", nova->vmach);
+
+
+        nova = nova->prox;
     }
 }
 void alterar(lista **eli, int operacao)
@@ -198,6 +302,7 @@ void printList(lista *node)
 int main(){
 
     lista *head = NULL;
+    media *cabeca = NULL;
     int a,b,c,opcao,n,operacaoeli;
     
 
@@ -241,7 +346,7 @@ int main(){
                 printf("Operacao a eliminar: ");
                 scanf("%d",&operacaoeli);
 
-                eliminar(&head,operacaoeli);
+                eliminar(&head, operacaoeli);
                 printList(head);
                 break;
             case 4:
@@ -254,11 +359,23 @@ int main(){
                 calcMax(&head);
                 break;
             case 7:
-                adicionar(&head, 1, 2, 3);
-                adicionar(&head, 1, 4, 5);
-                adicionar(&head, 2, 6, 2);
-                adicionar(&head, 2, 3, 4);
-                adicionar(&head, 2, 4, 6);
+                adicionar(&head, 1, 1, 5);
+                adicionar(&head, 1, 3, 4);
+                adicionar(&head, 2, 2, 4);
+                adicionar(&head, 2, 4, 5);
+                adicionar(&head, 3, 3, 5);
+                adicionar(&head, 3, 5, 6);
+                adicionar(&head, 4, 4, 5);
+                adicionar(&head, 4, 5, 5);
+                adicionar(&head, 4, 6, 4);
+                adicionar(&head, 4, 7, 5);
+                adicionar(&head, 4, 8, 9);
+                break;
+            case 8:
+                calcMin(&head);
+                break;
+            case 9:
+                calcMedia(&head, &cabeca);
                 break;
 
 
