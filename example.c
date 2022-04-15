@@ -23,23 +23,30 @@ typedef struct Nod
 void adicionarMedia(media **ref, int a, float b);
 int contador(lista* r, int a);
 void adicionar(lista** ref, int a, int b, int c);
-/*lista *criaA(lista *insert,lista *novo)
-{
-    novo->prox = insert->prox;
-    insert->prox = novo;
-}*/
-void printi(lista *head)
-{
-    lista *temp = head;
 
-    while(temp != NULL)
-    {
-        printf("%d->%d->%d\n", temp->opera,temp->mach,temp->vmach);
-        temp = temp->prox;
-    }
+
+
+void ficheirosLista(lista **ref)
+{
+    lista *nova = *ref;
+    FILE *open;
+
+    open = fopen("Job.txt", "a");
+
+
+    
+        while(nova != NULL)
+        {
+            fprintf(open, "%d %d %d\n", nova->opera, nova->mach, nova->vmach);
+
+            nova = nova->prox;
+            
+        }
+    fclose(open);
+
+
+
 }
-
-void ficheiros
 
 void adicionarMedia(media **ref, int a, float b)
 {
@@ -337,6 +344,7 @@ int main(){
                     printList(head);
                     n++;
                 }
+                ficheirosLista(&head);
             break;
 
             case 2:
