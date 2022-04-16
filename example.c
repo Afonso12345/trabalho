@@ -25,6 +25,25 @@ int contador(lista* r, int a);
 void adicionar(lista** ref, int a, int b, int c);
 
 
+void fileMem(lista **ref)
+{
+    lista *mem = *ref;
+    FILE *open;
+    int a,b,c
+
+    open = fopen("Job.txt", "r");
+
+    printf("Henrique");
+    
+
+}
+void contadorFicheiros()
+
+    FILE* open;
+
+    open = fopen("texto.txt", "r");
+
+    for(c=getc(c))
 
 void ficheirosLista(lista **ref)
 {
@@ -33,7 +52,7 @@ void ficheirosLista(lista **ref)
 
     open = fopen("Job.txt", "a");
 
-
+    
     
         while(nova != NULL)
         {
@@ -391,33 +410,3 @@ int main(){
 
         }
     }while(opcao =! 0);
-
-    /*lista *tmp;
-    int a,b,c,maquina;
-
-    printf("lista:");
-    scanf("%d %d %d", &a,&b,&c);
-
-    
-    tmp = cria(a,b,c);
-    first = tmp;
-    tmp = cria(a,c,b);
-    tmp->prox = first;
-    first = tmp;
-    printf("maquina para encontrar: ");
-    scanf("%d", &maquina);
-    tmp = find(first, maquina);
-    printf("found node is %d e a velocidade é %d\n",tmp->mach, tmp->vmach);
-    criaA(first, cria(a,c,b));
-    printf("%p", first);
-    return 0;*/
-    
-    
-
-
-
-
-
-}
-
-
