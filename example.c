@@ -15,36 +15,52 @@ typedef struct Node{
     struct Node* proxx;
 }media;
 
-typedef struct Nod
-{
-    struct Nod* prim;
-    struct Nod* ultimo;
-}links;
 void adicionarMedia(media **ref, int a, float b);
-int contador(lista* r, int a);
 void adicionar(lista** ref, int a, int b, int c);
+void fileMem(lista **ref);
+void ficheirosLista2(lista **ref);
+void ficheirosLista(lista **ref);
+void printList(lista *node);
+void eliminar(lista **eli, int value);
+void alterar(lista **eli, int operacao);
+void calcMax(lista **ref);
+void calcMedia(lista **ref, media **nodes);
+void calcMin(lista **ref);
 
 
 void fileMem(lista **ref)
 {
     lista *mem = *ref;
     FILE *open;
-    int a,b,c
+    int a,b,c;
 
     open = fopen("Job.txt", "r");
 
-    printf("Henrique");
-    
-
+    while(!feof(open))
+    {
+        fscanf(open, "%d %d %d\n" ,&a,&b,&c);
+        printf("%d %d %d\n", a,b,c);
+        adicionar(ref,a,b,c);
+    }
+    fclose(open);
 }
-void contadorFicheiros()
+void ficheirosLista2(lista **ref)
+{
+    lista *nova = *ref;
+    FILE *open;
 
-    FILE* open;
+    open = fopen("Job2.txt", "a");
+        
+        while(nova != NULL)
+        {
+            fprintf(open, "%d %d %d\n", nova->opera, nova->mach, nova->vmach);
 
-    open = fopen("texto.txt", "r");
-
-    for(c=getc(c))
-
+            nova = nova->prox;
+        }
+    fclose(open);
+    remove("Job.txt");
+    rename("Job2.txt", "Job.txt");
+}
 void ficheirosLista(lista **ref)
 {
     lista *nova = *ref;
@@ -61,12 +77,9 @@ void ficheirosLista(lista **ref)
             nova = nova->prox;
             
         }
+
     fclose(open);
-
-
-
 }
-
 void adicionarMedia(media **ref, int a, float b)
 {
     media *new= malloc(sizeof(media));
@@ -142,10 +155,6 @@ void calcMin(lista **ref)
 
             velocidade = node->prox->vmach;
         }
-        /*if(node->vmach > velocidade && node->prox == NULL)
-        {
-            velocidade = node->vmach;
-        }*/
         if(node->prox == NULL || (node->prox != NULL && node->opera != node->prox->opera))
         {
 
@@ -279,22 +288,6 @@ void eliminar(lista **eli, int value)
         list = list->prox;
     }
 }
- 
-int contador(lista *lista, int value)
-{
-    int contadora=0;
-    while(lista != NULL)
-    {
-        if(lista->opera == value)
-        {
-            contadora++;
-        }
-    lista = lista->prox;
-    }
-    
-    return contadora;
-
-}
 void adicionar(lista **ref,int a,int b,int c)
 {
     lista *new= malloc(sizeof(lista));
@@ -330,6 +323,16 @@ int main(){
     lista *head = NULL;
     media *cabeca = NULL;
     int a,b,c,opcao,n,operacaoeli;
+    FILE *fp;
+    fp = fopen("Job.txt", "r");
+    if(fp)
+    {
+    fileMem(&head);
+    fclose(fp);
+    }
+    else{
+
+    }
     
 
     do
@@ -363,7 +366,15 @@ int main(){
                     printList(head);
                     n++;
                 }
-                ficheirosLista(&head);
+                FILE * file;
+                file = fopen("Job.txt", "r");
+                if(file)
+                {
+                    ficheirosLista2(&head);
+                    fclose(file);
+                }else{
+                    ficheirosLista(&head);
+                }
             break;
 
             case 2:
@@ -372,16 +383,18 @@ int main(){
             case 3:
                 printf("Operacao a eliminar: ");
                 scanf("%d",&operacaoeli);
-
                 eliminar(&head, operacaoeli);
+                ficheirosLista2(&head);
                 printList(head);
                 break;
             case 4:
                 printf("Operacao a alterar");
                 scanf("%d", &operacao);
                 alterar(&head, operacao);
+                ficheirosLista2(&head);
+                break;
             case 5:
-                printf("Numero de 1's: %d", contador(head,2));
+                break;
             case 6:
                 calcMax(&head);
                 break;
@@ -410,3 +423,4 @@ int main(){
 
         }
     }while(opcao =! 0);
+}
