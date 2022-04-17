@@ -1,7 +1,88 @@
 #include "funcoes.h"
 
-void verificarCaracteres()
+bool verificarExisteMaquina(lista **ref, int maquinas, int operacao)
 {
+    lista *node = *ref;
+
+    while(node != NULL)
+    {
+      if(operacao == node->opera)
+      {  
+        if(maquinas == node->mach)
+        {
+            return T;
+        }
+
+        else
+        {
+            return F;
+        }
+      }
+
+
+
+    node = node->prox;
+
+    }
+
+}
+bool verificarExiste(lista **ref, int operation)
+{
+    lista *node = *ref;
+
+    while(node != NULL)
+    {
+        
+        if(operation == node->opera)
+        {
+            
+            return T;
+        }
+
+        else
+        {
+            return F;
+        }
+
+
+
+
+    node = node->prox;
+
+    }
+
+}
+
+int verificarCaracteres()
+{
+    FILE* fp;
+    int count=0;
+    char c;
+    
+    fp = fopen("Job.txt", "r");
+
+    if(fp == NULL)
+    {
+        return 1;
+
+    }
+    else
+    {
+        for (c = getc(fp); c != EOF; c = getc(fp))
+            {
+            count = count + 1;
+            }
+        return count;
+  
+    
+  
+        
+        
+    }
+    fclose(fp);
+
+
+
 
 }
 void freeNodesMedia(media **ref)
@@ -13,6 +94,7 @@ void freeNodesMedia(media **ref)
         free(list);
         list = *ref;
     }
+
 }
 void freeNodes(lista **ref)
 {
@@ -23,7 +105,6 @@ void freeNodes(lista **ref)
         free(list);
         list = *ref;
     }
-
 }
 void fileMem(lista **ref)
 {
@@ -36,7 +117,6 @@ void fileMem(lista **ref)
     while(!feof(open))
     {
         fscanf(open, "%d %d %d\n" ,&a,&b,&c);
-        printf("%d %d %d\n", a,b,c);
         adicionar(ref,a,b,c);
     }
     fclose(open);
@@ -131,6 +211,7 @@ void calcMedia(lista **ref, media **nodes)
 
         node = node->proxx;
     }
+    freeNodesMedia(&node);
 
 }
 void calcMin(lista **ref)

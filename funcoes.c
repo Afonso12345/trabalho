@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef enum { F, T } bool;
+
 typedef struct No{
     int opera;
     int mach;
@@ -28,10 +30,90 @@ void calcMedia(lista **ref, media **nodes);
 void calcMin(lista **ref);
 void freeNodes(lista **ref);
 void freeNodesMedia(media **ref);
-void verificarCaracteres();
+int verificarCaracteres();
+bool verificarExiste(lista **ref, int operation);
+bool verificarExisteMaquina(lista **ref, int maquinas, int operacao);
 
-void verificarCaracteres()
+bool verificarExisteMaquina(lista **ref, int maquinas, int operacao)
 {
+    lista *node = *ref;
+
+    while(node != NULL)
+    {
+      if(operacao == node->opera)
+      {  
+        if(maquinas == node->mach)
+        {
+            return T;
+        }
+
+        else
+        {
+            return F;
+        }
+      }
+
+
+
+    node = node->prox;
+
+    }
+
+}
+bool verificarExiste(lista **ref, int operation)
+{
+    lista *node = *ref;
+
+    while(node != NULL)
+    {
+        
+        if(operation == node->opera)
+        {
+            
+            return T;
+        }
+
+        else
+        {
+            return F;
+        }
+
+
+
+
+    node = node->prox;
+
+    }
+
+}
+
+int verificarCaracteres()
+{
+    FILE* fp;
+    int count=0;
+    char c;
+    
+    fp = fopen("Job.txt", "r");
+
+    if(fp == NULL)
+    {
+        return 1;
+
+    }
+    else
+    {
+        for (c = getc(fp); c != EOF; c = getc(fp))
+            {
+            count = count + 1;
+            }
+        return count;
+  
+    
+  
+        
+        
+    }
+    fclose(fp);
 
 
 
@@ -69,7 +151,6 @@ void fileMem(lista **ref)
     while(!feof(open))
     {
         fscanf(open, "%d %d %d\n" ,&a,&b,&c);
-        printf("%d %d %d\n", a,b,c);
         adicionar(ref,a,b,c);
     }
     fclose(open);
@@ -164,6 +245,7 @@ void calcMedia(lista **ref, media **nodes)
 
         node = node->proxx;
     }
+    freeNodesMedia(&node);
 
 }
 void calcMin(lista **ref)
@@ -357,7 +439,7 @@ int main()
     int a,b,c,opcao,n,operacaoeli;
     FILE *fp;
     fp = fopen("Job.txt", "r");
-    if(fp)
+    if(fp && verificarCaracteres() != 0)
     {
     fileMem(&head);
     fclose(fp);
@@ -380,22 +462,39 @@ int main()
         printf("5-Tempo minimo do Job.\n");
         printf("6-Tempo medio do Job.\n");
         printf("7-Mostrar a lista de operações.\n");
+        printf("8-Sair.\n");
+        printf("Opção: ");
         scanf("%d", &opcao);
 
         switch(opcao)
         {
             case 1:
                 b=0;c=0;n=0;
-                printf("Nº da operacao: ");
-                scanf("%d", &operacao);
+                do{
+                    printf("\nNº da operacao: ");
+                    scanf("%d", &operacao);
+                    if(verificarExiste(&head, operacao) == T)
+                    {
+                        printf("\nA operação já existe, digite novamente!\n");
+                    }
+                }while(verificarExiste(&head, operacao) == T);
+
                 printf("Numero de maquinas a inserir: ");
                 scanf("%d", &maquinas);
                 while(n<maquinas)
                 {
-                    printf("Valores: ");
-                    scanf("%d %d",&b,&c);
+                    do{
+                        printf("\nNumero de maquina: ");
+                        scanf("%d", &b);
+                        if(verificarExisteMaquina(&head, b, operacao) == T)
+                        {
+                            printf("\nMaquina já existe, digite novamente!\n");
+                        }
+                    }while(verificarExisteMaquina(&head, b, operacao) == T);
+                    printf("\nVelocidade da maquina: ");
+                    scanf("%d",&c);
                     adicionar(&head, operacao, b, c);
-                    printf("\nLista criada!!!\n\n");
+                    printf("\n\n");
                     printList(head);
                     n++;
                 }
@@ -408,7 +507,7 @@ int main()
                 }else{
                     ficheirosLista(&head);
                 }
-            break;
+                break;
 
             case 2:
                 printf("Operacao a alterar");
@@ -431,14 +530,17 @@ int main()
                 calcMin(&head);
                 break;
             case 6:
-                calcMax(&head);
+                calcMedia(&head, &cabeca);
                 break;
             case 7:
                 printList(head);
+                break;
+            case 8:
+                printf("%d", verificarCaracteres());
                 break;
             
 
 
         }
-    }while(opcao =! 0);
+    }while(opcao != 9);
 }

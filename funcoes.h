@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef enum { F, T } bool;
 
 typedef struct No{
     int opera;
@@ -16,7 +17,6 @@ typedef struct Node{
     struct Node* proxx;
 }media;
 
-
 void adicionarMedia(media **ref, int a, float b);
 void adicionar(lista** ref, int a, int b, int c);
 void fileMem(lista **ref);
@@ -30,4 +30,6 @@ void calcMedia(lista **ref, media **nodes);
 void calcMin(lista **ref);
 void freeNodes(lista **ref);
 void freeNodesMedia(media **ref);
-void verificarCaracteres();
+int verificarCaracteres();
+bool verificarExiste(lista **ref, int operation);
+bool verificarExisteMaquina(lista **ref, int maquinas, int operacao);

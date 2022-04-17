@@ -10,7 +10,7 @@ int main()
     int a,b,c,opcao,n,operacaoeli;
     FILE *fp;
     fp = fopen("Job.txt", "r");
-    if(fp)
+    if(fp && verificarCaracteres() != 0)
     {
     fileMem(&head);
     fclose(fp);
@@ -29,26 +29,43 @@ int main()
         printf("1-Inserir operacao.\n");
         printf("2-Alterar operacao.\n");
         printf("3-Remover operacao.\n");
-        printf("4-Tempo maximo do Job\n");
-        printf("5-Tempo minimo do Job\n");
-        printf("6-Tempo medio do Job\n");
-        printf("7-Mostrar a lista de operações\n");
+        printf("4-Tempo maximo do Job.\n");
+        printf("5-Tempo minimo do Job.\n");
+        printf("6-Tempo medio do Job.\n");
+        printf("7-Mostrar a lista de operações.\n");
+        printf("8-Sair.\n");
+        printf("Opção: ");
         scanf("%d", &opcao);
 
         switch(opcao)
         {
             case 1:
                 b=0;c=0;n=0;
-                printf("Nº da operacao: ");
-                scanf("%d", &operacao);
+                do{
+                    printf("\nNº da operacao: ");
+                    scanf("%d", &operacao);
+                    if(verificarExiste(&head, operacao) == T)
+                    {
+                        printf("\nA operação já existe, digite novamente!\n");
+                    }
+                }while(verificarExiste(&head, operacao) == T);
+
                 printf("Numero de maquinas a inserir: ");
                 scanf("%d", &maquinas);
                 while(n<maquinas)
                 {
-                    printf("Valores: ");
-                    scanf("%d %d",&b,&c);
+                    do{
+                        printf("\nNumero de maquina: ");
+                        scanf("%d", &b);
+                        if(verificarExisteMaquina(&head, b, operacao) == T)
+                        {
+                            printf("\nMaquina já existe, digite novamente!\n");
+                        }
+                    }while(verificarExisteMaquina(&head, b, operacao) == T);
+                    printf("\nVelocidade da maquina: ");
+                    scanf("%d",&c);
                     adicionar(&head, operacao, b, c);
-                    printf("\nLista criada!!!\n\n");
+                    printf("\n\n");
                     printList(head);
                     n++;
                 }
@@ -88,9 +105,13 @@ int main()
                 break;
             case 7:
                 printList(head);
+                break;
+            case 8:
+                printf("%d", verificarCaracteres());
+                break;
             
 
 
         }
-    }while(opcao =! 0);
+    }while(opcao != 9);
 }
