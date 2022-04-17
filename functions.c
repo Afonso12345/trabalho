@@ -1,40 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-typedef struct No{
-    int opera;
-    int mach;
-    int vmach;
-    struct No* prox;
-}lista;
-
-typedef struct Node{
-    int operat;
-    float media;
-    struct Node* proxx;
-}media;
-
-void adicionarMedia(media **ref, int a, float b);
-void adicionar(lista** ref, int a, int b, int c);
-void fileMem(lista **ref);
-void ficheirosLista2(lista **ref);
-void ficheirosLista(lista **ref);
-void printList(lista *node);
-void eliminar(lista **eli, int value);
-void alterar(lista **eli, int operacao);
-void calcMax(lista **ref);
-void calcMedia(lista **ref, media **nodes);
-void calcMin(lista **ref);
-void freeNodes(lista **ref);
-void freeNodesMedia(media **ref);
-void verificarCaracteres();
+#include "funcoes.h"
 
 void verificarCaracteres()
 {
-
-
-
 
 }
 void freeNodesMedia(media **ref)
@@ -46,7 +13,6 @@ void freeNodesMedia(media **ref)
         free(list);
         list = *ref;
     }
-
 }
 void freeNodes(lista **ref)
 {
@@ -57,6 +23,7 @@ void freeNodes(lista **ref)
         free(list);
         list = *ref;
     }
+
 }
 void fileMem(lista **ref)
 {
@@ -348,97 +315,4 @@ void printList(lista *node)
     printf("Operacao->%d | Maquina->%d | Velocidade->%d\n", node->opera, node->mach, node->vmach);
     node = node->prox;
   }
-}
-int main()
-{
-
-    lista *head = NULL;
-    media *cabeca = NULL;
-    int a,b,c,opcao,n,operacaoeli;
-    FILE *fp;
-    fp = fopen("Job.txt", "r");
-    if(fp)
-    {
-    fileMem(&head);
-    fclose(fp);
-    }
-    else{
-
-    }
-    
-
-    do
-    {
-        int opcao=0;
-        int operacao=0;
-        int maquinas = 0;
-        printf("\nMenu:\n");
-        printf("1-Inserir operacao.\n");
-        printf("2-Alterar operacao.\n");
-        printf("3-Remover operacao.\n");
-        printf("4-Tempo maximo do Job.\n");
-        printf("5-Tempo minimo do Job.\n");
-        printf("6-Tempo medio do Job.\n");
-        printf("7-Mostrar a lista de operações.\n");
-        scanf("%d", &opcao);
-
-        switch(opcao)
-        {
-            case 1:
-                b=0;c=0;n=0;
-                printf("Nº da operacao: ");
-                scanf("%d", &operacao);
-                printf("Numero de maquinas a inserir: ");
-                scanf("%d", &maquinas);
-                while(n<maquinas)
-                {
-                    printf("Valores: ");
-                    scanf("%d %d",&b,&c);
-                    adicionar(&head, operacao, b, c);
-                    printf("\nLista criada!!!\n\n");
-                    printList(head);
-                    n++;
-                }
-                FILE * file;
-                file = fopen("Job.txt", "r");
-                if(file)
-                {
-                    ficheirosLista2(&head);
-                    fclose(file);
-                }else{
-                    ficheirosLista(&head);
-                }
-            break;
-
-            case 2:
-                printf("Operacao a alterar");
-                scanf("%d", &operacao);
-                alterar(&head, operacao);
-                ficheirosLista2(&head);
-                printList(head);
-                break;
-            case 3:
-                printf("Operacao a eliminar: ");
-                scanf("%d",&operacaoeli);
-                eliminar(&head, operacaoeli);
-                ficheirosLista2(&head);
-                printList(head);
-                break;
-            case 4:
-                calcMax(&head);
-                break;
-            case 5:
-                calcMin(&head);
-                break;
-            case 6:
-                calcMax(&head);
-                break;
-            case 7:
-                printList(head);
-                break;
-            
-
-
-        }
-    }while(opcao =! 0);
 }

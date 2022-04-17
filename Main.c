@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <funcoes.h>
+#include "funcoes.h"
 
-int main(){
+int main()
+{
 
     lista *head = NULL;
     media *cabeca = NULL;
@@ -31,6 +32,7 @@ int main(){
         printf("4-Tempo maximo do Job\n");
         printf("5-Tempo minimo do Job\n");
         printf("6-Tempo medio do Job\n");
+        printf("7-Mostrar a lista de operações\n");
         scanf("%d", &opcao);
 
         switch(opcao)
@@ -59,16 +61,15 @@ int main(){
                 }else{
                     ficheirosLista(&head);
                 }
-            break;
+                break;
 
             case 2:
-                printf("Operacao a alterar:");
+                printf("Operacao a alterar");
                 scanf("%d", &operacao);
                 alterar(&head, operacao);
                 ficheirosLista2(&head);
-                break;
                 printList(head);
-            break;
+                break;
             case 3:
                 printf("Operacao a eliminar: ");
                 scanf("%d",&operacaoeli);
@@ -77,37 +78,17 @@ int main(){
                 printList(head);
                 break;
             case 4:
-                printf("Operacao a alterar");
-                scanf("%d", &operacao);
-                alterar(&head, operacao);
-                ficheirosLista2(&head);
-                break;
-            case 5:
-                break;
-            case 6:
                 calcMax(&head);
                 break;
-            case 7:
-                adicionar(&head, 1, 1, 5);
-                adicionar(&head, 1, 3, 4);
-                adicionar(&head, 2, 2, 4);
-                adicionar(&head, 2, 4, 5);
-                adicionar(&head, 3, 3, 5);
-                adicionar(&head, 3, 5, 6);
-                adicionar(&head, 4, 4, 5);
-                adicionar(&head, 4, 5, 5);
-                adicionar(&head, 4, 6, 4);
-                adicionar(&head, 4, 7, 5);
-                adicionar(&head, 4, 8, 9);
-                break;
-            case 8:
+            case 5:
                 calcMin(&head);
                 break;
-            case 9:
+            case 6:
                 calcMedia(&head, &cabeca);
                 break;
-
-
+            case 7:
+                printList(head);
+            
 
 
         }

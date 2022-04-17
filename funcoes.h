@@ -29,3 +29,5 @@ void calcMax(lista **ref);
 void calcMedia(lista **ref, media **nodes);
 void calcMin(lista **ref);
 void freeNodes(lista **ref);
+void freeNodesMedia(media **ref);
+void verificarCaracteres();
