@@ -82,19 +82,26 @@ int main()
                 printf("\nOperacao a alterar: ");
                 do{
                     scanf("%d", &operacao);
-                    if(verificarExiste(&head, operacao) == F)
+                    if(verificarExiste(&head, operacao) != T)
                     {
                         printf("Operação não existe!\nInsira novamente: ");
                     }
                     
-                }while(verificarExiste(&head, operacao) == F);
+                }while(verificarExiste(&head, operacao) != T);
                 alterar(&head, operacao);
                 ficheirosLista2(&head);
                 printList(head);
                 break;
             case 3:
                 printf("Operacao a eliminar: ");
-                scanf("%d",&operacaoeli);
+                do{
+                    scanf("%d",&operacaoeli);
+                    if(verificarExiste(&head, operacaoeli) != T)
+                    {
+                        printf("Operação não existe!\nInsira novamente: ");
+                    }
+
+                }while(verificarExiste(&head, operacaoeli) != T);
                 eliminar(&head, operacaoeli);
                 ficheirosLista2(&head);
                 printList(head);
