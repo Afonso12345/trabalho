@@ -1,6 +1,14 @@
 #include "funcoes.h"
 
-
+/**
+ * @brief Verifica se a maquina inserida já existe
+ * 
+ * @param ref 
+ * @param maquinas 
+ * @param operacao 
+ * @return true 
+ * @return false 
+ */
 bool verificarExisteMaquina(lista **ref, int maquinas, int operacao)
 {
     lista *node = *ref;
@@ -18,6 +26,14 @@ bool verificarExisteMaquina(lista **ref, int maquinas, int operacao)
     }
 
 }
+/**
+ * @brief Verifica se a operação inserida já existe
+ * 
+ * @param ref 
+ * @param operation 
+ * @return true 
+ * @return false 
+ */
 bool verificarExiste(lista **ref, int operation)
 {
     lista *node = *ref;
@@ -38,7 +54,11 @@ bool verificarExiste(lista **ref, int operation)
     }
 
 }
-
+/**
+ * @brief Verifica quantos caracteres o ficheiro "Job.txt" tem 
+ * 
+ * @return int 
+ */
 int verificarCaracteres()
 {
     FILE* fp;
@@ -63,6 +83,11 @@ int verificarCaracteres()
     }
     fclose(fp);
 }
+/**
+ * @brief Liberta os nós referentes à lista que contém a média
+ * 
+ * @param ref 
+ */
 void freeNodesMedia(media **ref)
 {
     media *list = *ref;
@@ -74,6 +99,11 @@ void freeNodesMedia(media **ref)
     }
 
 }
+/**
+ * @brief liberta os nós referentes a lista que contém os valores minimos e maximos de unidades de tempo
+ * 
+ * @param ref 
+ */
 void freeNodes(lista **ref)
 {
     lista *list = *ref;
@@ -84,6 +114,11 @@ void freeNodes(lista **ref)
         list = *ref;
     }
 }
+/**
+ * @brief Função que passa os valores contido no ficheiro para a memória aquando a inicialização do programa
+ * 
+ * @param ref 
+ */
 void fileMem(lista **ref)
 {
     lista *mem = *ref;
@@ -99,6 +134,11 @@ void fileMem(lista **ref)
     }
     fclose(open);
 }
+/**
+ * @brief Cria um novo ficheiro ".txt" caso já exista um, eliminando o mesmo.
+ * 
+ * @param ref 
+ */
 void ficheirosLista2(lista **ref)
 {
     lista *nova = *ref;
@@ -116,6 +156,11 @@ void ficheirosLista2(lista **ref)
     remove("Job.txt");
     rename("Job2.txt", "Job.txt");
 }
+/**
+ * @brief Cria um ficheiro ".txt" com os valores da lista.
+ * 
+ * @param ref 
+ */
 void ficheirosLista(lista **ref)
 {
     lista *nova = *ref;
@@ -135,6 +180,13 @@ void ficheirosLista(lista **ref)
 
     fclose(open);
 }
+/**
+ * @brief Função que adiciona os valores da media na lista de medias.
+ * 
+ * @param ref 
+ * @param a 
+ * @param b 
+ */
 void adicionarMedia(media **ref, int a, float b)
 {
     media *new= malloc(sizeof(media));
@@ -156,6 +208,12 @@ void adicionarMedia(media **ref, int a, float b)
     last->proxx = new;
     return;
 }
+/**
+ * @brief Função que calcula a media e escreve na consola esses mesmos.
+ * 
+ * @param ref 
+ * @param nodes 
+ */
 void calcMedia(lista **ref, media **nodes)
 {   
     lista *list = *ref;
@@ -192,6 +250,11 @@ void calcMedia(lista **ref, media **nodes)
     freeNodesMedia(&node);
 
 }
+/**
+ * @brief Calculo do valor minimo de unidades de tempo para a realização do job.
+ * 
+ * @param ref 
+ */
 void calcMin(lista **ref)
 {
     int velocidade = 0, soma=0;
@@ -235,6 +298,11 @@ void calcMin(lista **ref)
 
     freeNodes(&nova2);
 }
+/**
+ * @brief Calculo do valor máximo de unidades de tempo para a realização do job.
+ * 
+ * @param ref 
+ */
 void calcMax(lista **ref)
 {
 
@@ -276,6 +344,12 @@ void calcMax(lista **ref)
 
     freeNodes(&nova);
 }
+/**
+ * @brief Função para alterar valores já existentes na lista(velocidade das máquinas)
+ * 
+ * @param eli 
+ * @param operacao 
+ */
 void alterar(lista **eli, int operacao)
 {
     lista *list = *eli;
@@ -321,6 +395,12 @@ void alterar(lista **eli, int operacao)
     }
 
 }
+/**
+ * @brief Função que elimina uma operação inserida pelo utilizador.
+ * 
+ * @param eli 
+ * @param value 
+ */
 void eliminar(lista **eli, int value)
 {
     lista *list = *eli, *ant;
@@ -351,6 +431,14 @@ void eliminar(lista **eli, int value)
         list = list->prox;
     }
 }
+/**
+ * @brief Função que adiciona uma nova operação.
+ * 
+ * @param ref 
+ * @param a 
+ * @param b 
+ * @param c 
+ */
 void adicionar(lista **ref,int a,int b,int c)
 {
     lista *new= malloc(sizeof(lista));
@@ -373,6 +461,11 @@ void adicionar(lista **ref,int a,int b,int c)
     last->prox = new;
     return;
 }
+/**
+ * @brief Função que escreve na consola todas as operações e as maquinas associadas a cada uma.
+ * 
+ * @param node 
+ */
 void printList(lista *node)
 {
     printf("\nOperações existentes: \n");
