@@ -16,6 +16,7 @@ bool verificarExisteMaquina(lista **ref, int maquinas, int operacao)
       }
     node = node->prox;
     }
+
 }
 bool verificarExiste(lista **ref, int operation)
 {
@@ -295,10 +296,15 @@ void alterar(lista **eli, int operacao)
     list = *eli;
 
     printf("\n\nMaquina a editar: ");
-    scanf("%d", &Amaquina);
+    do{
+        scanf("%d", &Amaquina);
+        if(verificarExisteMaquina(*&eli, Amaquina, operacao) != T)
+        {
+            printf("\nMaquina não existe!Introduza novamente: ");
+        }
+    }while(verificarExisteMaquina(*&eli, Amaquina, operacao) != T);
     printf("\nNova velocidade: ");
     scanf("%d", &Avelocidade);
-
     while(list != NULL)
     {
         if(list->opera == operacao)
