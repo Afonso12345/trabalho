@@ -10,11 +10,11 @@ int main()
     fp = fopen("Job.txt", "r");
     if(fp && verificarCaracteres() != 0)
     {
-    fileMem(&head);
-    fclose(fp);
+        fileMem(&head);
+        fclose(fp);
     }
-    else{
-
+    else
+    {
     }
     
 
@@ -110,11 +110,6 @@ int main()
             case 7:
                 printList(head);
                 break;
-            case 8:
-                printf("%d", verificarCaracteres());
-                break;
-            
-
 
         }
     }while(opcao != 9);
