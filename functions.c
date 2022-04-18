@@ -1,5 +1,6 @@
 #include "funcoes.h"
 
+
 bool verificarExisteMaquina(lista **ref, int maquinas, int operacao)
 {
     lista *node = *ref;
@@ -12,19 +13,9 @@ bool verificarExisteMaquina(lista **ref, int maquinas, int operacao)
         {
             return T;
         }
-
-        else
-        {
-            return F;
-        }
       }
-
-
-
     node = node->prox;
-
     }
-
 }
 bool verificarExiste(lista **ref, int operation)
 {
@@ -34,14 +25,8 @@ bool verificarExiste(lista **ref, int operation)
     {
         
         if(operation == node->opera)
-        {
-            
+        {   
             return T;
-        }
-
-        else
-        {
-            return F;
         }
 
 
@@ -72,18 +57,10 @@ int verificarCaracteres()
             {
             count = count + 1;
             }
-        return count;
-  
-    
-  
-        
+        return count;      
         
     }
     fclose(fp);
-
-
-
-
 }
 void freeNodesMedia(media **ref)
 {
@@ -207,7 +184,7 @@ void calcMedia(lista **ref, media **nodes)
     }
     while(node != NULL)
     {
-        printf("Opera:%d  Media:%.2f ", node->operat, node->media);
+        printf("Operação:%d  Media:%.2f ", node->operat, node->media);
 
         node = node->proxx;
     }
@@ -303,22 +280,23 @@ void alterar(lista **eli, int operacao)
     lista *list = *eli;
     int Amaquina, Avelocidade;
 
+    printf("Maquinas existentes:\n");
+
     while(list != NULL)
-    {
+    {   
 
         if(list->opera == operacao)
         {
-            printf("\nMaquina: %d", list->mach);
-            printf("\nVelocidade: %d", list->vmach);
+            printf("\n\nMaquina-> %d | Velocidade->%d ", list->mach, list->vmach);
         }
 
         list = list->prox;
     }
     list = *eli;
 
-    printf("\nMaquina a editar: ");
+    printf("\n\nMaquina a editar: ");
     scanf("%d", &Amaquina);
-    printf("\nNova velocidade");
+    printf("\nNova velocidade: ");
     scanf("%d", &Avelocidade);
 
     while(list != NULL)
@@ -391,9 +369,10 @@ void adicionar(lista **ref,int a,int b,int c)
 }
 void printList(lista *node)
 {
-  while (node != NULL)
-  {
-    printf("Operacao->%d | Maquina->%d | Velocidade->%d\n", node->opera, node->mach, node->vmach);
-    node = node->prox;
-  }
+    printf("\nOperações existentes: \n");
+    while (node != NULL)
+    {
+        printf("Operacao->%d | Maquina->%d | Velocidade->%d\n", node->opera, node->mach, node->vmach);
+        node = node->prox;
+    }
 }

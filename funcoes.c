@@ -46,19 +46,9 @@ bool verificarExisteMaquina(lista **ref, int maquinas, int operacao)
         {
             return T;
         }
-
-        else
-        {
-            return F;
-        }
       }
-
-
-
     node = node->prox;
-
     }
-
 }
 bool verificarExiste(lista **ref, int operation)
 {
@@ -68,14 +58,8 @@ bool verificarExiste(lista **ref, int operation)
     {
         
         if(operation == node->opera)
-        {
-            
+        {   
             return T;
-        }
-
-        else
-        {
-            return F;
         }
 
 
@@ -106,18 +90,10 @@ int verificarCaracteres()
             {
             count = count + 1;
             }
-        return count;
-  
-    
-  
-        
+        return count;      
         
     }
     fclose(fp);
-
-
-
-
 }
 void freeNodesMedia(media **ref)
 {
@@ -241,7 +217,7 @@ void calcMedia(lista **ref, media **nodes)
     }
     while(node != NULL)
     {
-        printf("Opera:%d  Media:%.2f ", node->operat, node->media);
+        printf("Operação:%d  Media:%.2f ", node->operat, node->media);
 
         node = node->proxx;
     }
@@ -337,22 +313,23 @@ void alterar(lista **eli, int operacao)
     lista *list = *eli;
     int Amaquina, Avelocidade;
 
+    printf("Maquinas existentes:\n");
+
     while(list != NULL)
-    {
+    {   
 
         if(list->opera == operacao)
         {
-            printf("\nMaquina: %d", list->mach);
-            printf("\nVelocidade: %d", list->vmach);
+            printf("\n\nMaquina-> %d | Velocidade->%d ", list->mach, list->vmach);
         }
 
         list = list->prox;
     }
     list = *eli;
 
-    printf("\nMaquina a editar: ");
+    printf("\n\nMaquina a editar: ");
     scanf("%d", &Amaquina);
-    printf("\nNova velocidade");
+    printf("\nNova velocidade: ");
     scanf("%d", &Avelocidade);
 
     while(list != NULL)
@@ -425,11 +402,12 @@ void adicionar(lista **ref,int a,int b,int c)
 }
 void printList(lista *node)
 {
-  while (node != NULL)
-  {
-    printf("Operacao->%d | Maquina->%d | Velocidade->%d\n", node->opera, node->mach, node->vmach);
-    node = node->prox;
-  }
+    printf("\nOperações existentes: \n");
+    while (node != NULL)
+    {
+        printf("Operacao->%d | Maquina->%d | Velocidade->%d\n", node->opera, node->mach, node->vmach);
+        node = node->prox;
+    }
 }
 int main()
 {
@@ -470,26 +448,25 @@ int main()
         {
             case 1:
                 b=0;c=0;n=0;
+                printf("\nNº da operacao: ");
                 do{
-                    printf("\nNº da operacao: ");
                     scanf("%d", &operacao);
                     if(verificarExiste(&head, operacao) == T)
                     {
-                        printf("\nA operação já existe, digite novamente!\n");
+                        printf("\n\nA operação já existe!Introduz novamente: ");
                     }
                 }while(verificarExiste(&head, operacao) == T);
-
                 printf("Numero de maquinas a inserir: ");
                 scanf("%d", &maquinas);
                 while(n<maquinas)
                 {
+                    printf("\nNumero de maquina: ");
                     do{
-                        printf("\nNumero de maquina: ");
                         scanf("%d", &b);
                         if(verificarExisteMaquina(&head, b, operacao) == T)
-                        {
-                            printf("\nMaquina já existe, digite novamente!\n");
-                        }
+                    {
+                        printf("\n\nA maquina já existe!Introduz novamente: ");
+                    }
                     }while(verificarExisteMaquina(&head, b, operacao) == T);
                     printf("\nVelocidade da maquina: ");
                     scanf("%d",&c);
@@ -510,8 +487,15 @@ int main()
                 break;
 
             case 2:
-                printf("Operacao a alterar");
-                scanf("%d", &operacao);
+                printf("\nOperacao a alterar: ");
+                do{
+                    scanf("%d", &operacao);
+                    if(verificarExiste(&head, operacao) == F)
+                    {
+                        printf("Operação não existe!\nInsira novamente: ");
+                    }
+                    
+                }while(verificarExiste(&head, operacao) == F);
                 alterar(&head, operacao);
                 ficheirosLista2(&head);
                 printList(head);

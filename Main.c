@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "funcoes.h"
 
 int main()
@@ -41,26 +39,25 @@ int main()
         {
             case 1:
                 b=0;c=0;n=0;
+                printf("\nNº da operacao: ");
                 do{
-                    printf("\nNº da operacao: ");
                     scanf("%d", &operacao);
                     if(verificarExiste(&head, operacao) == T)
                     {
-                        printf("\nA operação já existe, digite novamente!\n");
+                        printf("\n\nA operação já existe!Introduz novamente: ");
                     }
                 }while(verificarExiste(&head, operacao) == T);
-
                 printf("Numero de maquinas a inserir: ");
                 scanf("%d", &maquinas);
                 while(n<maquinas)
                 {
+                    printf("\nNumero de maquina: ");
                     do{
-                        printf("\nNumero de maquina: ");
                         scanf("%d", &b);
                         if(verificarExisteMaquina(&head, b, operacao) == T)
-                        {
-                            printf("\nMaquina já existe, digite novamente!\n");
-                        }
+                    {
+                        printf("\n\nA maquina já existe!Introduz novamente: ");
+                    }
                     }while(verificarExisteMaquina(&head, b, operacao) == T);
                     printf("\nVelocidade da maquina: ");
                     scanf("%d",&c);
@@ -81,8 +78,15 @@ int main()
                 break;
 
             case 2:
-                printf("Operacao a alterar");
-                scanf("%d", &operacao);
+                printf("\nOperacao a alterar: ");
+                do{
+                    scanf("%d", &operacao);
+                    if(verificarExiste(&head, operacao) == F)
+                    {
+                        printf("Operação não existe!\nInsira novamente: ");
+                    }
+                    
+                }while(verificarExiste(&head, operacao) == F);
                 alterar(&head, operacao);
                 ficheirosLista2(&head);
                 printList(head);
