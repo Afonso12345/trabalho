@@ -7,21 +7,19 @@ int main()
     media *cabeca = NULL;
     int a,b,c,opcao,n,operacaoeli;
     FILE *fp;
-    fp = fopen("Job.txt", "r");
-    if(fp && verificarCaracteres() != 0)
+    if((fp = fopen("Job.txt", "r")) != NULL && verificarCaracteres() != 0)
     {
         fileMem(&head);
         fclose(fp);
     }
     else
     {
-        fclose(fp);
+
     }
     
 
     do
     {
-        int opcao=0;
         int operacao=0;
         int maquinas = 0;
         printf("\nMenu:\n");
@@ -118,7 +116,8 @@ int main()
             case 7:
                 printList(head);
                 break;
-
+            case 8:
+                continue;
         }
-    }while(opcao != 9);
+    }while(opcao != 8);
 }

@@ -11,6 +11,11 @@ typedef struct No{
     struct No* prox;
 }lista;
 
+typedef struct Job{
+    int job;
+    struct No* lista
+}jobs;
+
 typedef struct Node{
     int operat;
     float media;
@@ -20,7 +25,7 @@ typedef struct Node{
 void adicionarMedia(media **ref, int a, float b);
 void adicionar(lista** ref, int a, int b, int c);
 void fileMem(lista **ref);
-void ficheirosLista2(lista **ref);
+void ficheirosLista2(lista **#ref);
 void ficheirosLista(lista **ref);
 void printList(lista *node);
 void eliminar(lista **eli, int value);
