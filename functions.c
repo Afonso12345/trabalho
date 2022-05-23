@@ -429,7 +429,6 @@ void eliminar(lista **eli, int value)
  
         free(list); 
         list = ant->prox;
-        printf("%p", list);
     }
 }
 /**

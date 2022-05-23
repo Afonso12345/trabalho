@@ -1,5 +1,61 @@
 #include "Novo.h"
 
+bool VerificarOperações(jobs **ref, int job, int ope)
+{
+    jobs *lista = *ref;
+    opera *nova;
+    maqs *nova2;
+
+    while(lista != NULL)
+    {
+        nova = lista->iniop;
+        if(lista->job == job)
+        {
+            while(nova != NULL)
+            {
+                if(nova->num_opera == ope)
+                {
+                    return T;
+                }
+                nova = nova->prox;
+            }
+        }
+
+       lista = lista->prox;
+    }
+
+
+
+
+}
+
+void GuardarFicheiro(jobs **ref)
+{
+    jobs *n = *ref;
+    opera *n1;
+    maqs *n2;
+    FILE *open;
+
+    open = fopen("Process.txt","a");
+
+    while(n != NULL)
+    {
+
+        n1 = n->iniop;
+        while(n1 != NULL)
+        {
+            n2 = n1->ini_maq;
+            while(n2 != NULL)
+            {
+                fprintf(open,"%d %d %d %d\n", n->job, n1->num_opera ,n2->mach, n2->vmach);
+                n2 = n2->prox;
+            }
+            n1 = n1->prox;
+        }
+        n = n->prox;
+    }
+    fclose(open);
+}
 void CriarJob(jobs **ref, int a)
 {
 
@@ -50,21 +106,76 @@ void PrintaOperacoes(jobs **ref)
 
         nova1 = nova1->prox;
     }
-    
+    nova1 = *ref;
 
 }
 void eliminarOperacoes(jobs **ref, int job, int ope)
 {
     jobs *lista = *ref;
-    opera *lista1;
+    opera *lista1, *ant;
+    maqs *lista2, *prox;
 
     while(lista != NULL)
     {
-
+        if(lista->job == job)
+        {
+            lista1 = lista->iniop;
+            while(lista1 != NULL && lista1->num_opera == ope)
+            {
+               lista->iniop = lista1->prox; 
+               lista2 = lista1->ini_maq;
+               while(lista2 != NULL)
+               {
+                   prox = lista2->prox;
+                   free(lista2);
+                   lista2 = prox;
+               }
+               free(lista1);
+               return;
+            }
+        }
+        lista = lista->prox;
     }
+    lista = *ref;
+
+    while(lista != NULL)
+    {
+        if(lista->job == job)
+        {
+            lista1 = lista->iniop;
+            while(lista1 != NULL && lista1->num_opera != ope)
+            {
+                ant = lista1;
+                lista1 = lista1->prox;
+            }
+            lista1 = lista->iniop;
+            while(lista1 != NULL)
+            {
+                if(lista1->num_opera == ope)
+                {
+                lista2 = lista1->ini_maq;
+                while(lista2 != NULL)
+                {   
+                    prox = lista2->prox;
+                    free(lista2);
+                    lista2 = prox;
+                }
+                }
+
+                if(lista1->num_opera == ope)
+                {
+                    ant->prox = lista1->prox;
+                    free(lista1);
+                    lista1 = ant->prox;
+                    return;
+                }
 
 
-
+                lista1 = lista1->prox;
+            }
+        }
+        lista = lista->prox;
+    }
 
 }
 void eliminarJob(jobs **ref, int a)
@@ -99,13 +210,30 @@ void eliminarJob(jobs **ref, int a)
         {
             ant = lista;
             lista = lista->prox;
+            nova = ant->prox->iniop;
         }
+        nova = ant->prox->iniop;
+        while(nova != NULL)
+        {
+            eli = nova->prox;
+            nova1 = nova->ini_maq;
+            while(nova1 != NULL)
+            {
+                eli1 = nova1->prox;
+                free(nova1);
+                nova1 = eli1;
+            }
+            free(nova);
+            nova = eli;
+        }
+        if (lista == NULL)
+            return;
+ 
+        ant->prox = lista->prox;
+ 
+        free(lista); 
+        lista = ant->prox;
     }
-    while(lista != NULL)
-    {
-        
-    }
-
 
 }
 void PrintaJobs(jobs *ref)
@@ -132,7 +260,6 @@ void CriarOperacoes(jobs **ref,int a, int b)
         ola = ola->prox;
     }
 
-    new->job1 = b;
     new->num_opera = a;
     new->ini_maq = NULL;
     new->prox = NULL;
@@ -152,12 +279,6 @@ void CriarOperacoes(jobs **ref,int a, int b)
     }
     last->prox = new;
     return;
-
-    
-
-
-
-
 
 }
 void CriarMaquinas(jobs **ref, int a, int b, int maq, int vmaq)
@@ -260,12 +381,22 @@ void menu(jobs **head)
                 printf("Velocidade da maquina: ");
                 scanf("%d", &vmaq);
 
+                if(VerificarOperações(head,job,ope) != T)
+                {
                 CriarOperacoes(head,ope,job);
+                }
+
                 CriarMaquinas(head,ope,job,maq,vmaq);
                 break;
             case 4:
+                printf("Numero do job: ");
+                scanf("%d", &job);
+                printf("Numero de operacao: ");
+                scanf("%d", &ope);
+                eliminarOperacoes(head,job,ope);
                 break;
             case 5:
+                GuardarFicheiro(head);
                 break;
             case 6:
                 PrintaOperacoes(head);

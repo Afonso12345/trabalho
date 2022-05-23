@@ -11,7 +11,6 @@ typedef struct Job{
 }jobs;
 
 typedef struct Ope{
-    int job1;
     int num_opera;
     struct Maq *ini_maq;
     struct Ope *prox;
@@ -31,4 +30,6 @@ void PrintaOperacoes(jobs **ref);
 void eliminarJob(jobs **ref, int a);
 void CriarMaquinas(jobs **ref, int a, int b, int maq, int vmaq);
 void eliminarOperacoes(jobs **ref, int job, int ope);
+bool VerificarOperações(jobs **ref, int job, int ope);
+void GuardarFicheiro(jobs **ref);
 
