@@ -18,7 +18,6 @@ typedef struct Ope{
 }opera;
 
 typedef struct Maq{
-    int operation;
     int mach;
     int vmach;
     struct Maq* prox;
@@ -30,4 +29,6 @@ void CriarOpera(jobs **ref, int a);
 void CriarOperacoes(jobs **ref, int a, int b);
 void PrintaOperacoes(jobs **ref);
 void eliminarJob(jobs **ref, int a);
+void CriarMaquinas(jobs **ref, int a, int b, int maq, int vmaq);
+void eliminarOperacoes(jobs **ref, int job, int ope);
 

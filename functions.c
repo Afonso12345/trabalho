@@ -428,7 +428,8 @@ void eliminar(lista **eli, int value)
         ant->prox = list->prox;
  
         free(list); 
-        list = list->prox;
+        list = ant->prox;
+        printf("%p", list);
     }
 }
 /**
