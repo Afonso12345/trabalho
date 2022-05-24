@@ -1,4 +1,18 @@
 #include "Novo.h"
+bool VerificarJobs(jobs **ref, int job)
+{
+    jobs *lista = *ref;
+
+
+    while(lista != NULL)
+    {
+        if(lista->job == job)
+        {
+            return T;
+        }
+        lista = lista->prox;
+    }
+}
 
 bool VerificarOperações(jobs **ref, int job, int ope)
 {
@@ -23,11 +37,35 @@ bool VerificarOperações(jobs **ref, int job, int ope)
 
        lista = lista->prox;
     }
-
-
-
+}
+bool VerificarMaqs(jobs **ref, int job, int ope, int maq)
+{
 
 }
+void fileMem(jobs **ref)
+{
+    jobs *head = *ref;
+    FILE *open;
+    int a,b,c,d;
+
+    open = fopen("Process.txt", "r");
+
+    while(!feof(open))
+    {
+        fscanf(open, "%d %d %d %d\n" ,&a,&b,&c,&d);
+        if(VerificarJobs(ref, a) != T)
+        {
+            CriarJob(ref,a);
+        }
+        if(VerificarOperações(ref,a,b) != T)
+        {
+            CriarOperacoes(ref,b,a);
+        }
+        CriarMaquinas(ref,b,a,c,d);
+    }
+    fclose(open);
+}
+
 
 void GuardarFicheiro(jobs **ref)
 {

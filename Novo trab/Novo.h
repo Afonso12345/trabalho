@@ -24,12 +24,13 @@ typedef struct Maq{
 void menu(jobs **ref);
 void CriarJob(jobs **ref, int a);
 void PrintaJobs(jobs *ref);
-void CriarOpera(jobs **ref, int a);
 void CriarOperacoes(jobs **ref, int a, int b);
 void PrintaOperacoes(jobs **ref);
 void eliminarJob(jobs **ref, int a);
 void CriarMaquinas(jobs **ref, int a, int b, int maq, int vmaq);
 void eliminarOperacoes(jobs **ref, int job, int ope);
-bool VerificarOperações(jobs **ref, int job, int ope);
 void GuardarFicheiro(jobs **ref);
+bool VerificarMaqs(jobs **ref, int job, int ope, int maq);
+bool VerificarJobs(jobs **ref, int job);
+bool VerificarOperações(jobs **ref, int job, int ope);
 
