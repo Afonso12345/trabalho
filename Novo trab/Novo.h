@@ -33,4 +33,7 @@ void GuardarFicheiro(jobs **ref);
 bool VerificarMaqs(jobs **ref, int job, int ope, int maq);
 bool VerificarJobs(jobs **ref, int job);
 bool VerificarOperações(jobs **ref, int job, int ope);
+int verificarCaracteres();
+void fileMem(jobs **ref);
+int verificarNumero(jobs **ref, int job);
 

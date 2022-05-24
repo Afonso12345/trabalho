@@ -1,4 +1,53 @@
 #include "Novo.h"
+int verificarNumero(jobs **ref, int job)
+{
+    jobs *lista = *ref;
+    opera *lista1;
+    maqs *lista2;
+    int a;
+
+
+    while(lista != NULL)
+    {
+        if(job == lista->job)
+        {
+            lista1 = lista->iniop;
+            while(lista1 != NULL)
+            {   
+                a = lista1->num_opera;
+                lista1 = lista1->prox;
+            }
+        }
+        lista = lista->prox;
+    }
+
+
+    return a+1;
+}
+int verificarCaracteres()
+{
+    FILE* fp;
+    int count=0;
+    char c;
+    
+    fp = fopen("Process.txt", "r");
+
+    if(fp == NULL)
+    {
+        return 1;
+
+    }
+    else
+    {
+        for (c = getc(fp); c != EOF; c = getc(fp))
+            {
+            count = count + 1;
+            }
+        return count;      
+        
+    }
+    fclose(fp);
+}
 bool VerificarJobs(jobs **ref, int job)
 {
     jobs *lista = *ref;
@@ -64,6 +113,35 @@ void fileMem(jobs **ref)
         CriarMaquinas(ref,b,a,c,d);
     }
     fclose(open);
+}
+void GuardarFicheiro2(jobs **ref)
+{
+    jobs *n = *ref;
+    opera *n1;
+    maqs *n2;
+    FILE *open;
+
+    open = fopen("Process2.txt","a");
+
+    while(n != NULL)
+    {
+
+        n1 = n->iniop;
+        while(n1 != NULL)
+        {
+            n2 = n1->ini_maq;
+            while(n2 != NULL)
+            {
+                fprintf(open,"%d %d %d %d\n", n->job, n1->num_opera ,n2->mach, n2->vmach);
+                n2 = n2->prox;
+            }
+            n1 = n1->prox;
+        }
+        n = n->prox;
+    }
+    fclose(open);
+    remove("Process.txt"),
+    rename("Process2.txt", "Process.txt");
 }
 
 
@@ -282,6 +360,42 @@ void PrintaJobs(jobs *ref)
         ref = ref->prox;
     }
 }
+void CriarOperacoes2(jobs **ref,int a, int b)
+{
+    opera *new = malloc(sizeof(opera));
+    jobs *ola = *ref;
+    opera **c;
+
+    while(ola != NULL)
+    {
+        if(b == ola->job)
+        {
+            c = &(ola->iniop);
+        }
+        ola = ola->prox;
+    }
+
+    new->num_opera = verificarNumero(ref,b);
+    new->ini_maq = NULL;
+    new->prox = NULL;
+
+    opera *last = *c;
+
+    if(*c == NULL)
+    {
+        *c = new;
+        return;
+    }
+
+
+    while(last->prox != NULL)
+    {
+        last = last->prox;
+    }
+    last->prox = new;
+    return;
+
+}
 void CriarOperacoes(jobs **ref,int a, int b)
 {
     opera *new = malloc(sizeof(opera));
@@ -294,7 +408,6 @@ void CriarOperacoes(jobs **ref,int a, int b)
         {
             c = &(ola->iniop);
         }
-
         ola = ola->prox;
     }
 
@@ -380,6 +493,17 @@ void CriarMaquinas(jobs **ref, int a, int b, int maq, int vmaq)
 void menu(jobs **head)
 {
     int opcao, a, job, ope, maq, vmaq;
+    FILE *fp;
+
+    if((fp = fopen("Process.txt", "r")) != NULL && verificarCaracteres() != 0)
+    {
+        fileMem(head);
+        fclose(fp);
+    }
+    else
+    {
+
+    }
 
 
     do
@@ -425,6 +549,13 @@ void menu(jobs **head)
                 }
 
                 CriarMaquinas(head,ope,job,maq,vmaq);
+                if((fp = fopen("Process.txt", "r")) != NULL)
+                {
+                    GuardarFicheiro2(head);
+                    fclose(fp);
+                }else{
+                    GuardarFicheiro(head);
+                }
                 break;
             case 4:
                 printf("Numero do job: ");
@@ -449,4 +580,56 @@ void menu(jobs **head)
 
 
     }while(opcao != 8);
+}
+
+void MenuOperações(jobs **head)
+{
+    int opcao;
+
+    do{
+        printf("\nMenu Operações:\n");
+        printf("1-Inserir maquina em operação.\n");
+        printf("2-Remover Operação.\n");
+        printf("3-Alterar operacao.\n");
+        printf("4-Sair.\n");
+        printf("Opcao: ");
+        scanf("%d", &opcao);
+
+        switch(opcao)
+        {
+            case 1:
+                printf("Operacao a editar: ");
+                scanf("%d", &operacao);
+                printf("Maquina a editar:  ")
+                CriarMaquinas(head)
+                break;
+            
+            case 2:
+                break;
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }while(opcao != 4)
+
 }

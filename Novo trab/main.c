@@ -6,5 +6,4 @@ int main()
     jobs *head = NULL;
 
     menu(&head);
-
 }
