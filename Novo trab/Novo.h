@@ -36,4 +36,5 @@ bool VerificarOperações(jobs **ref, int job, int ope);
 int verificarCaracteres();
 void fileMem(jobs **ref);
 int verificarNumero(jobs **ref, int job);
+void MenuOperações(jobs **head, int job, int ope);
 
