@@ -21,6 +21,7 @@ typedef struct Maq{
     int vmach;
     struct Maq* prox;
 }maqs;
+
 void menu(jobs **ref);
 void CriarJob(jobs **ref, int a);
 void PrintaJobs(jobs *ref);
