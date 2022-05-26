@@ -33,69 +33,67 @@ void removerMaquinas(jobs **ref, int job, int ope, int maq)
 {
     jobs *lista = *ref;
     opera *lista1, *ant;
-    maqs *lista2, *prox;
+    maqs *lista2, *prox, *ant1;
 
     while(lista != NULL)
     {
         if(lista->job == job)
         {
-            lista1 = lista->iniop;
-            while(lista1 != NULL && lista1->num_opera == ope)
-            {
-               lista2 = lista1->ini_maq;
-               while(lista2 != NULL && lista2->mach == maq)
-               {
-                   lista1->ini_maq = lista2->prox;
-                   prox = lista2->prox;
-                   free(lista2);
-                   return;
-               }
-               lista1 = lista1->prox;
-            }
-        }
-        lista = lista->prox;
-    }
-
-    while(lista != NULL)
-    {
-        if(lista->job == job)
-        {
-            lista1 = lista->iniop;
-            while(lista1 != NULL && lista1->num_opera != ope)
-            {
-                ant = lista1;
-                lista1 = lista1->prox;
-            }
             lista1 = lista->iniop;
             while(lista1 != NULL)
             {
                 if(lista1->num_opera == ope)
                 {
-                lista2 = lista1->ini_maq;
-                while(lista2 != NULL)
-                {   
-                    prox = lista2->prox;
-                    free(lista2);
-                    lista2 = prox;
-                }
-                }
-
-                if(lista1->num_opera == ope)
-                {
-                    ant->prox = lista1->prox;
-                    free(lista1);
-                    lista1 = ant->prox;
+                    lista2 = lista1->ini_maq;
+                    while(lista2 != NULL && lista2->mach == maq)
+                    {
+                        lista1->ini_maq = lista2->prox;
+                        prox = lista2->prox;
+                        free(lista2);
+                        return;
+                    }
                     return;
                 }
-
-
                 lista1 = lista1->prox;
             }
         }
         lista = lista->prox;
     }
+    lista = *ref;
 
-
+    while(lista != NULL)
+    {
+        if(lista->job == job)
+        {
+            lista1 = lista->iniop;
+            while(lista1 != NULL)
+            {
+                lista2 = lista1->ini_maq;
+                if(lista1->num_opera == ope)
+                {
+                        while (lista2 != NULL && lista2->mach != maq)
+                        {
+                            ant1 = lista2;
+                            lista2 = lista2->prox;
+                        }
+                        lista2 = lista1->ini_maq;
+                        while (lista2 != NULL)
+                        {
+                            if(lista2->mach == maq)
+                            {
+                                ant1->prox = lista2->prox;
+                                free(lista2);
+                                lista2 = ant1->prox;
+                                return;
+                            }
+                            lista2 = lista2->prox;
+                        }
+                }
+                lista1 = lista1->prox;
+            }
+         }
+        lista = lista->prox;
+    }
 }
 int verificarNumero(jobs **ref, int job)
 {
@@ -118,8 +116,6 @@ int verificarNumero(jobs **ref, int job)
         }
         lista = lista->prox;
     }
-
-
     return a+1;
 }
 int verificarCaracteres()
@@ -645,11 +641,6 @@ void CriarMaquinas(jobs **ref, int a, int b, int maq, int vmaq)
     last->prox = new;
     return;
 
-
-
-
-
-
 }
 void menu(jobs **head)
 {
@@ -830,11 +821,19 @@ void MenuOperações(jobs **head, int job, int ope)
                         }
                     }while(maquina < 0);
                     
-                    if(VerificarMaqs(head,job,ope,maquina) != T)
+                    if(VerificarMaqs(head,job,ope,maquina) == T)
                     {
-                        printf("Maquina não existe!\n");
+                        printf("Maquina já existe!\n");
                     }
-                }while(VerificarMaqs(head,job,ope,maquina) != T);
+                }while(VerificarMaqs(head,job,ope,maquina) == T);
+                do{
+                    printf("\nInsira velocidade da maquina: ");
+                    scanf("%d", &velo);
+                    if(velo < 0)
+                    {
+                        printf("Velocidade tem que ser maior que 0! \n");
+                    }
+                }while(velo < 0);
                 CriarMaquinas(head,ope,job,maquina,velo);
                 GuardarFicheiro2(head);
                 break;
@@ -856,34 +855,13 @@ void MenuOperações(jobs **head, int job, int ope)
                     }
                 }while(VerificarMaqs(head,job,ope,maquina) != T);
                 removerMaquinas(head,job,ope,maquina);
+                GuardarFicheiro2(head);
                 break;
             case 3:
 
                 break;
             case 4:
                 continue;
-
-
-
-
-
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }while(opcao != 4);
-
-
-
 }
