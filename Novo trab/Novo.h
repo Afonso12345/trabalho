@@ -15,13 +15,14 @@ typedef struct Ope{
     int num_opera;
     struct Maq *ini_maq;
     struct Ope *prox;
+    bool feito;
 }opera;
 
 typedef struct Maq{
     int mach;
     int vmach;
     struct Maq* prox;
-    bool feito;
+    bool emUso;
 }maqs;
 
 void menu(jobs **ref);

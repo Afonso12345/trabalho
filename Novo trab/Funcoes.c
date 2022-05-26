@@ -605,6 +605,7 @@ void CriarOperacoes2(jobs **ref, int b)
     new->num_opera = verificarNumero(ref,b);
     new->ini_maq = NULL;
     new->prox = NULL;
+    new->feito = false;
 
     opera *last = *c;
 
@@ -641,6 +642,7 @@ void CriarOperacoes(jobs **ref,int a, int b)
     new->num_opera = a;
     new->ini_maq = NULL;
     new->prox = NULL;
+    new->feito = false;
 
     opera *last = *c;
 
@@ -695,7 +697,7 @@ void CriarMaquinas(jobs **ref, int a, int b, int maq, int vmaq)
     new->mach = maq;
     new->vmach = vmaq;
     new->prox = NULL;
-    new->feito = false;
+    new->emUso = false;
 
     maqs *last = *d;
 
@@ -715,17 +717,41 @@ void CriarMaquinas(jobs **ref, int a, int b, int maq, int vmaq)
 }
 void escalonamento(jobs **head)
 {
-    int count = 0;
-    while(count > 120)
+    jobs *nova = *head;
+    opera *nova1;
+    maqs *nova2, *maquinaM;
+    int count = 0, a = 0, tempo = 130;
+    while(count <= tempo)
     {
-
-
-
-
-
-
-
-
+        while(nova != NULL)
+        {
+            nova1 = nova->iniop;
+            while(nova1 != NULL)
+            {
+                nova2 = nova1->ini_maq;
+                a = 0;
+                while(nova2 != NULL)
+                {
+                    if(nova2->vmach < a || a == 0)
+                    {
+                        a = nova2->vmach;
+                        maquinaM = nova2;
+                    }
+                    if(nova2->prox == NULL)
+                    {
+                        count = count + a;
+                        printf("Count %d\n", count);
+                    }
+                    nova2 = nova2->prox;
+                }
+                nova1 = nova1->prox;
+            }
+            if(nova->prox == NULL)
+            {
+                return;
+            }
+            nova = nova->prox;
+        }
     }
 }
 void menu(jobs **head)
@@ -749,7 +775,6 @@ void menu(jobs **head)
 
     do
     {
-        system("clear");
         job = 0;
         int operacao=0;
         int maquinas = 0;
@@ -865,9 +890,12 @@ void menu(jobs **head)
                 GuardarFicheiro(head);
                 break;
             case 8:
+                escalonamento(head);
+                break;
+            case 9:
                 continue;
         }
-    }while(opcao != 8);
+    }while(opcao != 9);
 }
 
 void MenuOperações(jobs **head, int job, int ope)
