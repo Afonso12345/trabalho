@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
-typedef enum { F, T } bool;
+typedef enum { F, T } boolean;
 
 typedef struct Job{
     int job;
@@ -20,6 +21,7 @@ typedef struct Maq{
     int mach;
     int vmach;
     struct Maq* prox;
+    bool feito;
 }maqs;
 
 void menu(jobs **ref);
@@ -31,11 +33,13 @@ void eliminarJob(jobs **ref, int a);
 void CriarMaquinas(jobs **ref, int a, int b, int maq, int vmaq);
 void eliminarOperacoes(jobs **ref, int job, int ope);
 void GuardarFicheiro(jobs **ref);
-bool VerificarMaqs(jobs **ref, int job, int ope, int maq);
-bool VerificarJobs(jobs **ref, int job);
-bool VerificarOperações(jobs **ref, int job, int ope);
+boolean VerificarMaqs(jobs **ref, int job, int ope, int maq);
+boolean VerificarJobs(jobs **ref, int job);
+boolean VerificarOperações(jobs **ref, int job, int ope);
 int verificarCaracteres();
 void fileMem(jobs **ref);
 int verificarNumero(jobs **ref, int job);
 void MenuOperações(jobs **head, int job, int ope);
-
+void removerMaquinas(jobs **ref, int job, int ope, int maq);
+void alterarMaquinas(jobs **ref, int job, int ope, int maq, int novamaq, int novavelo);
+void PrintaOperacoesEscolhida(jobs **ref,int job);
