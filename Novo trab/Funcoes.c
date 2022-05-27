@@ -47,7 +47,7 @@ void alterarMaquinas(jobs **ref, int job, int ope, int maq, int novamaq, int nov
                     lista2 = lista1->ini_maq;
                     while(lista2 != NULL)
                     {
-                        if(lista2->mach = maq)
+                        if(lista2->mach == maq)
                         {
                             lista2->mach = novamaq;
                             lista2->vmach = novavelo;
@@ -715,12 +715,99 @@ void CriarMaquinas(jobs **ref, int a, int b, int maq, int vmaq)
     return;
 
 }
+void criarEscalonamento()
+{
+    
+}
+void criarMaquinas(maqsUso **ref, int maq)
+{
+    maqsUso* new = malloc(sizeof(maqsUso));
+    maqsUso* lista = *ref;
+
+    new->Maquinas = maq;
+    new->inicio = NULL;
+    new->prox = NULL;
+
+    if(*ref == NULL)
+    {
+        *ref = new;
+        return;
+    }
+
+    while(lista->prox != NULL)
+    {
+        lista = lista->prox;
+    }
+    lista->prox = new;
+    return;
+}
+boolean verificarMaquinasListamaquinas(maqsUso **ref, int maq)
+{
+    maqsUso *lista = *ref;
+
+    while(lista != NULL)
+    {
+        if(lista->Maquinas == maq)
+        {
+            return T;
+        }
+        lista = lista->prox;
+    }
+
+
+}
+void PrintaMaqs(maqsUso **ref)
+{
+    maqsUso *lista = *ref;
+
+    while(lista != NULL)
+    {
+        printf("Maquinas: %d\n", lista->Maquinas);
+        lista = lista->prox;
+    }
+}
+void criarMaquinasHelp(jobs **head, maqsUso **head1)
+{
+    jobs *lista = *head;
+    opera *lista1;
+    maqs *lista2;
+    int maquina;
+    
+    while(lista != NULL)
+    {
+        lista1 = lista->iniop;
+        while(lista1 != NULL)
+        {
+            lista2 = lista1->ini_maq;
+            while(lista2 != NULL)
+            {
+                maquina = lista2->mach;
+                if(verificarMaquinasListamaquinas(head1,maquina) != T)
+                {
+                    criarMaquinas(head1,maquina);
+                }
+                lista2 = lista2->prox;
+            }
+            lista1 = lista1->prox;
+        }
+
+        lista = lista->prox;
+    }
+}
+void PercorrerOperacoes(jobs **head, int ope)
+{
+    
+
+
+
+}
 void escalonamento(jobs **head)
 {
+    
     jobs *nova = *head;
     opera *nova1;
     maqs *nova2, *maquinaM;
-    int count = 0, a = 0, tempo = 130;
+    int count = 0, a = 0, tempo = 1;
     while(count <= tempo)
     {
         while(nova != NULL)
@@ -741,6 +828,7 @@ void escalonamento(jobs **head)
                     {
                         count = count + a;
                         printf("Count %d\n", count);
+
                     }
                     nova2 = nova2->prox;
                 }
@@ -754,7 +842,7 @@ void escalonamento(jobs **head)
         }
     }
 }
-void menu(jobs **head)
+void menu(jobs **head, maqsUso **head1)
 {
     int opcao, a, job, ope, maq, vmaq, velo;
     char c, d;
@@ -962,6 +1050,7 @@ void MenuOperações(jobs **head, int job, int ope)
                 removerMaquinas(head,job,ope,maquina);
                 break;
             case 3:
+                PrintaOperacoesEscolhida1(head,job,ope);
                 do{
                     printf("Insira numero de maquina a editar: \n");
                     scanf("%d", &maquina);
@@ -970,7 +1059,6 @@ void MenuOperações(jobs **head, int job, int ope)
                         printf("Maquina não existe!\n");
                     }
                 }while(VerificarMaqs(head,job,ope,maquina) != T);
-                PrintaOperacoesEscolhida1(head,job,ope);
                 do{
                     do{
                     

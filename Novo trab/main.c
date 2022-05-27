@@ -4,6 +4,7 @@
 int main()
 {
     jobs *head = NULL;
+    maqsUso *head1 = NULL;
 
-    menu(&head);
+    menu(&head,&head1);
 }

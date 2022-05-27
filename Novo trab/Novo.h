@@ -25,7 +25,21 @@ typedef struct Maq{
     bool emUso;
 }maqs;
 
-void menu(jobs **ref);
+typedef struct MaquinasUso{
+    int Maquinas;
+    struct Escalonar *inicio;
+    struct MaquinasUso *prox;
+}maqsUso;
+
+typedef struct Escalonar{
+    int job;
+    int opera;
+    int time;
+    int count;
+    struct Escalonar * prox;
+}scale;
+
+void menu(jobs **ref, maqsUso **ref1);
 void CriarJob(jobs **ref, int a);
 void PrintaJobs(jobs *ref);
 void CriarOperacoes(jobs **ref, int a, int b);
@@ -44,3 +58,7 @@ void MenuOperações(jobs **head, int job, int ope);
 void removerMaquinas(jobs **ref, int job, int ope, int maq);
 void alterarMaquinas(jobs **ref, int job, int ope, int maq, int novamaq, int novavelo);
 void PrintaOperacoesEscolhida(jobs **ref,int job);
+void PercorrerOperacoes(jobs **head, int ope);
+void criarMaquinasHelp(jobs **head, maqsUso **head1);
+boolean verificarMaquinasListamaquinas(maqsUso **ref, int maq);
+void criarMaquinas();
