@@ -22,20 +22,20 @@ typedef struct Maq{
     int mach;
     int vmach;
     struct Maq* prox;
-    bool emUso;
 }maqs;
 
 typedef struct MaquinasUso{
     int Maquinas;
+    bool inUse;
     struct Escalonar *inicio;
     struct MaquinasUso *prox;
 }maqsUso;
 
 typedef struct Escalonar{
+    int inicio;
     int job;
     int opera;
-    int time;
-    int count;
+    int tempo;
     struct Escalonar * prox;
 }scale;
 
@@ -61,4 +61,9 @@ void PrintaOperacoesEscolhida(jobs **ref,int job);
 void PercorrerOperacoes(jobs **head, int ope);
 void criarMaquinasHelp(jobs **head, maqsUso **head1);
 boolean verificarMaquinasListamaquinas(maqsUso **ref, int maq);
-void criarMaquinas();
+void criarMaquinasPUso(maqsUso **ref, int maq);
+void criarEscalonar(maqsUso **ref, int maq, int job, int ope, int vtime, int contador);
+void guardarFicheiroscale(maqsUso **head);
+void escalonamento(jobs **head, maqsUso **head1);
+void Printsss(maqsUso **head);
+boolean verificarExistencia(maqsUso **ref,int job, int opera, int maq);

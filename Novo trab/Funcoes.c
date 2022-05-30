@@ -697,7 +697,6 @@ void CriarMaquinas(jobs **ref, int a, int b, int maq, int vmaq)
     new->mach = maq;
     new->vmach = vmaq;
     new->prox = NULL;
-    new->emUso = false;
 
     maqs *last = *d;
 
@@ -715,11 +714,7 @@ void CriarMaquinas(jobs **ref, int a, int b, int maq, int vmaq)
     return;
 
 }
-void criarEscalonamento()
-{
-    
-}
-void criarMaquinas(maqsUso **ref, int maq)
+void criarMaquinasPUso(maqsUso **ref, int maq)
 {
     maqsUso* new = malloc(sizeof(maqsUso));
     maqsUso* lista = *ref;
@@ -727,6 +722,7 @@ void criarMaquinas(maqsUso **ref, int maq)
     new->Maquinas = maq;
     new->inicio = NULL;
     new->prox = NULL;
+    new->inUse = false;
 
     if(*ref == NULL)
     {
@@ -741,6 +737,65 @@ void criarMaquinas(maqsUso **ref, int maq)
     lista->prox = new;
     return;
 }
+void criarEscalonar(maqsUso **ref, int maq, int job, int ope, int vtime, int contador)
+{
+    scale *new = malloc(sizeof(maqsUso));
+    maqsUso *ola = *ref;
+    scale **c;
+
+    while(ola != NULL)
+    {
+        if(maq == ola->Maquinas)
+        {
+            c = &(ola->inicio);
+        }
+        ola = ola->prox;
+    }
+    new->inicio = contador;
+    new->job = job;
+    new->opera = ope;
+    new->tempo = vtime;
+    new->prox = NULL;
+
+    scale *last = *c;
+
+    if(*c == NULL)
+    {
+        *c = new;
+        return;
+    }
+
+
+    while(last->prox != NULL)
+    {
+        last = last->prox;
+    }
+    last->prox = new;
+    return;
+}
+boolean verificarExistencia(maqsUso **ref,int job, int opera, int maq)
+{
+    maqsUso *lista = *ref;
+    scale *lista1;
+
+    while(lista != NULL)
+    {
+        if(maq == lista->Maquinas)
+        {
+            lista1=lista->inicio;
+            while(lista1 != NULL)
+            {
+                if(job == lista1->job && opera == lista1->opera)
+                {
+                    return T;
+                }
+                lista1 = lista1->prox;
+            }
+        }
+        lista = lista->prox;
+    }
+
+}
 boolean verificarMaquinasListamaquinas(maqsUso **ref, int maq)
 {
     maqsUso *lista = *ref;
@@ -753,8 +808,6 @@ boolean verificarMaquinasListamaquinas(maqsUso **ref, int maq)
         }
         lista = lista->prox;
     }
-
-
 }
 void PrintaMaqs(maqsUso **ref)
 {
@@ -784,7 +837,7 @@ void criarMaquinasHelp(jobs **head, maqsUso **head1)
                 maquina = lista2->mach;
                 if(verificarMaquinasListamaquinas(head1,maquina) != T)
                 {
-                    criarMaquinas(head1,maquina);
+                    criarMaquinasPUso(head1,maquina);
                 }
                 lista2 = lista2->prox;
             }
@@ -794,22 +847,63 @@ void criarMaquinasHelp(jobs **head, maqsUso **head1)
         lista = lista->prox;
     }
 }
-void PercorrerOperacoes(jobs **head, int ope)
+void Printsss(maqsUso **head)
 {
-    
+    maqsUso *lista = *head;
+    scale *lista1;
 
 
-
+    while(lista != NULL)
+    {
+        lista1 = lista->inicio;
+        printf("Maquina: %d\n", lista->Maquinas);
+        while(lista1 != NULL)
+        {
+            printf("\nInicio: %d\n", lista1->inicio);
+            printf("Operacao: %d\n", lista1->opera);
+            printf("Job: %d\n", lista1->job);
+            printf("Velocidade: %d\n", lista1->tempo);
+            lista1 = lista1->prox;
+        }
+        lista = lista->prox;
+    }
 }
-void escalonamento(jobs **head)
+void guardarFicheiroscale(maqsUso **head)
 {
+    maqsUso *lista = *head;
+    scale *lista1;
+    FILE* open;
+
+    open = fopen("Escalonamento.txt", "w");
+
+    while(lista != NULL)
+    {
+        lista1 = lista->inicio;
+        fprintf(open,"M:%d", lista->Maquinas);
+        while(lista1 != NULL)
+        {
+            fprintf(open,"  ||  I:%d", lista1->inicio);
+            fprintf(open,"  J:%d", lista1->job);
+            fprintf(open,"  O:%d", lista1->opera);
+            fprintf(open,"  V:%d", lista1->tempo);
+            lista1 = lista1->prox;
+        }
+        fprintf(open,"\n");
+        lista = lista->prox;
+    }
+    fprintf(open,"\n\nLegenda:\nI->Tempo de Inicio\nJ->Job\nO->Operacao\nV->Tempo da Maquina");
+    fclose(open);
     
+}
+void escalonamento(jobs **head, maqsUso **head1)
+{
+    maqsUso *lista = *head1;
     jobs *nova = *head;
     opera *nova1;
     maqs *nova2, *maquinaM;
-    int count = 0, a = 0, tempo = 1;
-    while(count <= tempo)
-    {
+    int count = 0, a = 0;
+    int job,opera,maquina;
+
         while(nova != NULL)
         {
             nova1 = nova->iniop;
@@ -822,25 +916,21 @@ void escalonamento(jobs **head)
                     if(nova2->vmach < a || a == 0)
                     {
                         a = nova2->vmach;
-                        maquinaM = nova2;
+                        job = nova->job;
+                        opera = nova1->num_opera;
+                        maquina = nova2->mach;
                     }
-                    if(nova2->prox == NULL)
+                    if(nova2->prox == NULL && verificarExistencia(head1,job,opera,maquina) != T)
                     {
+                        criarEscalonar(head1,maquina,job,opera,a,count);
                         count = count + a;
-                        printf("Count %d\n", count);
-
                     }
                     nova2 = nova2->prox;
                 }
                 nova1 = nova1->prox;
             }
-            if(nova->prox == NULL)
-            {
-                return;
-            }
             nova = nova->prox;
         }
-    }
 }
 void menu(jobs **head, maqsUso **head1)
 {
@@ -978,7 +1068,10 @@ void menu(jobs **head, maqsUso **head1)
                 GuardarFicheiro(head);
                 break;
             case 8:
-                escalonamento(head);
+                criarMaquinasHelp(head, head1);
+                escalonamento(head,head1);
+                Printsss(head1);
+                guardarFicheiroscale(head1);
                 break;
             case 9:
                 continue;
