@@ -191,7 +191,7 @@ boolean VerificarJobs(jobs **ref, int job)
     }
 }
 
-boolean VerificarOperações(jobs **ref, int job, int ope)
+boolean VerificarOperacoes(jobs **ref, int job, int ope)
 {
     jobs *lista = *ref;
     opera *nova;
@@ -263,7 +263,7 @@ void fileMem(jobs **ref)
         {
             CriarJob(ref,a);
         }
-        if(VerificarOperações(ref,a,b) != T)
+        if(VerificarOperacoes(ref,a,b) != T)
         {
             CriarOperacoes(ref,b,a);
         }
@@ -553,7 +553,7 @@ void eliminarJob(jobs **ref, int a)
             ant = lista;
             lista = lista->prox;
         }
-        nova = ant->prox->iniop;
+        nova=lista->iniop;
         while(nova != NULL)
         {
             eli = nova->prox;
@@ -574,13 +574,13 @@ void eliminarJob(jobs **ref, int a)
  
         free(lista); 
         lista = ant->prox;
+        return;
     }
 
 }
 void PrintaJobs(jobs *ref)
 {
-    printf("Jobs existentes\n");
-    printf("---------------------");
+
     while(ref != NULL)
     {
         printf("\nJob %d", ref->job);
@@ -953,6 +953,7 @@ void menu(jobs **head, maqsUso **head1)
 
     do
     {
+        system("clear");
         job = 0;
         int operacao=0;
         int maquinas = 0;
@@ -963,8 +964,9 @@ void menu(jobs **head, maqsUso **head1)
         printf("4-Remover operacao.\n");
         printf("5-Alterar operacao.\n");
         printf("6-Mostrar Jobs e Operações.\n");
-        printf("7-Guardar no ficheiro.\n");
-        printf("8-Sair.\n");
+        printf("7-Escalonamento. \n");
+        printf("8-Guardar no ficheiro.\n");
+        printf("9-Sair.\n");
         printf("Opcao: ");
         scanf("%d", &opcao);
 
@@ -1024,10 +1026,22 @@ void menu(jobs **head, maqsUso **head1)
                 }while(c == 's' || c == 'S');
                 break;
             case 4:
-                printf("Numero do job: ");
+            do{
+                printf("\nNumero do job: ");
                 scanf("%d", &job);
+                if(VerificarJobs(head,job) != T)
+                {
+                    printf("Job nao existe!");
+                }
+            }while(VerificarJobs(head,job) != T);
+            do{
                 printf("Numero de operacao: ");
                 scanf("%d", &ope);
+                if(VerificarOperacoes(head,job,ope) != T)
+                {
+                    printf("Operacao nao existe!");
+                }
+            }while(VerificarOperacoes(head,job,ope) != T);
                 eliminarOperacoes(head,job,ope);
                 corrigirOperacoes(head,job);
                 break;
@@ -1036,7 +1050,7 @@ void menu(jobs **head, maqsUso **head1)
                 printf("\nJobs existentes:\n");
                 PrintaJobs(*head);
                 do{
-                    printf("\nJob:");
+                    printf("\n\nJob a alterar:");
                     scanf("%d", &job);
                     if(VerificarJobs(head,job) != T)
                     {
@@ -1048,13 +1062,13 @@ void menu(jobs **head, maqsUso **head1)
                 do{
                     printf("\nOperação a modificar: ");
                     scanf("%d", &ope);
-                    if(VerificarOperações(head,job,ope) != T)
+                    if(VerificarOperacoes(head,job,ope) != T)
                     {
                         printf("Operacao nao existe, escolher uma presente na lista!\n");
                     }
-                }while(VerificarOperações(head,job,ope) != T);
+                }while(VerificarOperacoes(head,job,ope) != T);
                 system("clear");
-                MenuOperações(head,job,ope);
+                MenuOperacoes(head,job,ope);
                 break;
             case 6:
                 system("clear");
@@ -1065,13 +1079,14 @@ void menu(jobs **head, maqsUso **head1)
                 }while(d != 's' && d != 'S');
                 break; 
             case 7:
-                GuardarFicheiro(head);
-                break;
-            case 8:
                 criarMaquinasHelp(head, head1);
                 escalonamento(head,head1);
                 Printsss(head1);
                 guardarFicheiroscale(head1);
+                GuardarFicheiro(head);
+                break;
+            case 8:
+                GuardarFicheiro(head);
                 break;
             case 9:
                 continue;
@@ -1079,7 +1094,7 @@ void menu(jobs **head, maqsUso **head1)
     }while(opcao != 9);
 }
 
-void MenuOperações(jobs **head, int job, int ope)
+void MenuOperacoes(jobs **head, int job, int ope)
 {
     int opcao, maquina, velo,novamaquina,novavelo;
     char c;
@@ -1097,10 +1112,11 @@ void MenuOperações(jobs **head, int job, int ope)
         switch(opcao)
         {
             case 1:
+                PrintaOperacoesEscolhida1(head,job,ope);
                 do{
                     do{
                     
-                        printf("Insira maquina: \n");
+                        printf("\nInsira maquina: ");
                         scanf("%d", &maquina);
                         if(maquina < 0)
                         {
@@ -1124,10 +1140,11 @@ void MenuOperações(jobs **head, int job, int ope)
                 CriarMaquinas(head,ope,job,maquina,velo);
                 break;
             case 2:
+                PrintaOperacoesEscolhida1(head,job,ope);
                 do{
                     do{
                     
-                        printf("Insira maquina a remover: \n");
+                        printf("\nInsira maquina a remover: ");
                         scanf("%d", &maquina);
                         if(maquina < 0)
                         {
@@ -1145,7 +1162,7 @@ void MenuOperações(jobs **head, int job, int ope)
             case 3:
                 PrintaOperacoesEscolhida1(head,job,ope);
                 do{
-                    printf("Insira numero de maquina a editar: \n");
+                    printf("\nInsira numero de maquina a editar: ");
                     scanf("%d", &maquina);
                     if(VerificarMaqs(head,job,ope,maquina) != T)
                     {
@@ -1155,7 +1172,7 @@ void MenuOperações(jobs **head, int job, int ope)
                 do{
                     do{
                     
-                        printf("Insira novo numero: \n");
+                        printf("\nInsira novo numero: ");
                         scanf("%d", &novamaquina);
                         if(maquina < 0)
                         {
