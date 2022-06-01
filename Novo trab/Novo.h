@@ -39,6 +39,7 @@ typedef struct Escalonar{
     struct Escalonar * prox;
 }scale;
 
+
 void menu(jobs **ref, maqsUso **ref1);
 void CriarJob(jobs **ref, int a);
 void PrintaJobs(jobs *ref);

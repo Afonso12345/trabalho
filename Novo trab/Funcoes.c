@@ -1,4 +1,11 @@
 #include "Novo.h"
+
+/**
+ * @brief Função para corrigir numero das operações após a eliminação de uma delas.
+ * 
+ * @param ref 
+ * @param job 
+ */
 void corrigirOperacoes(jobs **ref, int job)
 {
     jobs *lista = *ref;
@@ -29,6 +36,16 @@ void corrigirOperacoes(jobs **ref, int job)
         lista = lista->prox;
     }
 }
+/**
+ * @brief Função para alterar valores de uma determinada máquina.
+ * 
+ * @param ref 
+ * @param job 
+ * @param ope 
+ * @param maq 
+ * @param novamaq 
+ * @param novavelo 
+ */
 void alterarMaquinas(jobs **ref, int job, int ope, int maq, int novamaq, int novavelo)
 {
     jobs *lista = *ref;
@@ -61,6 +78,14 @@ void alterarMaquinas(jobs **ref, int job, int ope, int maq, int novamaq, int nov
         lista = lista->prox;
     }
 }
+/**
+ * @brief Função para remover máquinas da lista de máquinas
+ * 
+ * @param ref 
+ * @param job 
+ * @param ope 
+ * @param maq 
+ */
 void removerMaquinas(jobs **ref, int job, int ope, int maq)
 {
     jobs *lista = *ref;
@@ -129,6 +154,13 @@ void removerMaquinas(jobs **ref, int job, int ope, int maq)
         lista = lista->prox;
     }
 }
+/**
+ * @brief Função que verifica o numero das operações existentes na lista.
+ * 
+ * @param ref 
+ * @param job 
+ * @return int 
+ */
 int verificarNumero(jobs **ref, int job)
 {
     jobs *lista = *ref;
@@ -152,6 +184,11 @@ int verificarNumero(jobs **ref, int job)
     }
     return a+1;
 }
+/**
+ * @brief Função que verifica os carateres de um ficheiro de texto.
+ * 
+ * @return int 
+ */
 int verificarCaracteres()
 {
     FILE* fp;
@@ -176,6 +213,13 @@ int verificarCaracteres()
     }
     fclose(fp);
 }
+/**
+ * @brief Função que verifica se job já existe na lista de jobs.
+ * 
+ * @param ref 
+ * @param job 
+ * @return boolean 
+ */
 boolean VerificarJobs(jobs **ref, int job)
 {
     jobs *lista = *ref;
@@ -190,7 +234,14 @@ boolean VerificarJobs(jobs **ref, int job)
         lista = lista->prox;
     }
 }
-
+/**
+ * @brief Função que verifica se operação existe no job escolhido.
+ * 
+ * @param ref 
+ * @param job 
+ * @param ope 
+ * @return boolean 
+ */
 boolean VerificarOperacoes(jobs **ref, int job, int ope)
 {
     jobs *lista = *ref;
@@ -215,6 +266,15 @@ boolean VerificarOperacoes(jobs **ref, int job, int ope)
        lista = lista->prox;
     }
 }
+/**
+ * @brief Função helper para verificar se máquina existe na lista
+ * 
+ * @param ref 
+ * @param job 
+ * @param ope 
+ * @param maq 
+ * @return boolean 
+ */
 boolean VerificarMaqs(jobs **ref, int job, int ope, int maq)
 {
     jobs *lista = *ref;
@@ -248,6 +308,11 @@ boolean VerificarMaqs(jobs **ref, int job, int ope, int maq)
     }
 
 }
+/**
+ * @brief Função que guarda dados da memória no ficheiro de texto
+ * 
+ * @param ref 
+ */
 void fileMem(jobs **ref)
 {
     jobs *head = *ref;
@@ -271,6 +336,11 @@ void fileMem(jobs **ref)
     }
     fclose(open);
 }
+/**
+ * @brief Função que guarda no ficheiro de texto
+ * 
+ * @param ref 
+ */
 void GuardarFicheiro2(jobs **ref)
 {
     jobs *n = *ref;
@@ -300,7 +370,11 @@ void GuardarFicheiro2(jobs **ref)
     rename("Process2.txt", "Process.txt");
 }
 
-
+/**
+ * @brief Função que guarda no ficheiro de texto
+ * 
+ * @param ref 
+ */
 void GuardarFicheiro(jobs **ref)
 {
     jobs *n = *ref;
@@ -328,6 +402,12 @@ void GuardarFicheiro(jobs **ref)
     }
     fclose(open);
 }
+/**
+ * @brief Função que cria um job.
+ * 
+ * @param ref 
+ * @param a 
+ */
 void CriarJob(jobs **ref, int a)
 {
 
@@ -353,6 +433,13 @@ void CriarJob(jobs **ref, int a)
     
 
 }
+/**
+ * @brief Função que printa uma só operação escolhida de um determinado job.
+ * 
+ * @param ref 
+ * @param job 
+ * @param ope 
+ */
 void PrintaOperacoesEscolhida1(jobs **ref,int job, int ope)
 {
     jobs *nova1 = *ref;
@@ -389,6 +476,12 @@ void PrintaOperacoesEscolhida1(jobs **ref,int job, int ope)
 
 
 }
+/**
+ * @brief Função que printa as operações do job escolhido.
+ * 
+ * @param ref 
+ * @param job 
+ */
 void PrintaOperacoesEscolhida(jobs **ref,int job)
 {
     jobs *nova1 = *ref;
@@ -422,6 +515,11 @@ void PrintaOperacoesEscolhida(jobs **ref,int job)
 
 
 }
+/**
+ * @brief Função que printa as operações de todos os jobs.
+ * 
+ * @param ref 
+ */
 void PrintaOperacoes(jobs **ref)
 {
     jobs *nova1 = *ref;
@@ -450,6 +548,13 @@ void PrintaOperacoes(jobs **ref)
     nova1 = *ref;
 
 }
+/**
+ * @brief Função que elimina a operação escolhida
+ * 
+ * @param ref 
+ * @param job 
+ * @param ope 
+ */
 void eliminarOperacoes(jobs **ref, int job, int ope)
 {
     jobs *lista = *ref;
@@ -519,6 +624,12 @@ void eliminarOperacoes(jobs **ref, int job, int ope)
     }
 
 }
+/**
+ * @brief Função que elimina job escolhido.
+ * 
+ * @param ref 
+ * @param a 
+ */
 void eliminarJob(jobs **ref, int a)
 {
     jobs *lista = *ref, *ant;
@@ -578,6 +689,11 @@ void eliminarJob(jobs **ref, int a)
     }
 
 }
+/**
+ * @brief Função para printar jobs.
+ * 
+ * @param ref 
+ */
 void PrintaJobs(jobs *ref)
 {
 
@@ -587,6 +703,12 @@ void PrintaJobs(jobs *ref)
         ref = ref->prox;
     }
 }
+/**
+ * @brief Cria operações nos jobs escolhidos.
+ * 
+ * @param ref 
+ * @param b 
+ */
 void CriarOperacoes2(jobs **ref, int b)
 {
     opera *new = malloc(sizeof(opera));
@@ -624,6 +746,13 @@ void CriarOperacoes2(jobs **ref, int b)
     return;
 
 }
+/**
+ * @brief Cria operações no job escolhido.
+ * 
+ * @param ref 
+ * @param a 
+ * @param b 
+ */
 void CriarOperacoes(jobs **ref,int a, int b)
 {
     opera *new = malloc(sizeof(opera));
@@ -661,6 +790,15 @@ void CriarOperacoes(jobs **ref,int a, int b)
     return;
 
 }
+/**
+ * @brief Cria maquinas nas operações escolhidas
+ * 
+ * @param ref 
+ * @param a 
+ * @param b 
+ * @param maq 
+ * @param vmaq 
+ */
 void CriarMaquinas(jobs **ref, int a, int b, int maq, int vmaq)
 {
     maqs *new = malloc(sizeof(maqs));
@@ -714,6 +852,12 @@ void CriarMaquinas(jobs **ref, int a, int b, int maq, int vmaq)
     return;
 
 }
+/**
+ * @brief Cria maquinas da lista de escalonamento
+ * 
+ * @param ref 
+ * @param maq 
+ */
 void criarMaquinasPUso(maqsUso **ref, int maq)
 {
     maqsUso* new = malloc(sizeof(maqsUso));
@@ -737,6 +881,16 @@ void criarMaquinasPUso(maqsUso **ref, int maq)
     lista->prox = new;
     return;
 }
+/**
+ * @brief Cria a lista de escalonamento.
+ * 
+ * @param ref 
+ * @param maq 
+ * @param job 
+ * @param ope 
+ * @param vtime 
+ * @param contador 
+ */
 void criarEscalonar(maqsUso **ref, int maq, int job, int ope, int vtime, int contador)
 {
     scale *new = malloc(sizeof(maqsUso));
@@ -773,6 +927,15 @@ void criarEscalonar(maqsUso **ref, int maq, int job, int ope, int vtime, int con
     last->prox = new;
     return;
 }
+/**
+ * @brief Verifica se a operação já existe na lista de escalonamento
+ * 
+ * @param ref 
+ * @param job 
+ * @param opera 
+ * @param maq 
+ * @return boolean 
+ */
 boolean verificarExistencia(maqsUso **ref,int job, int opera, int maq)
 {
     maqsUso *lista = *ref;
@@ -796,6 +959,13 @@ boolean verificarExistencia(maqsUso **ref,int job, int opera, int maq)
     }
 
 }
+/**
+ * @brief Função que verifica se a proxima maquina a adicionar na lista de escalonamento existe na lista ou não
+ * 
+ * @param ref 
+ * @param maq 
+ * @return boolean 
+ */
 boolean verificarMaquinasListamaquinas(maqsUso **ref, int maq)
 {
     maqsUso *lista = *ref;
@@ -809,16 +979,12 @@ boolean verificarMaquinasListamaquinas(maqsUso **ref, int maq)
         lista = lista->prox;
     }
 }
-void PrintaMaqs(maqsUso **ref)
-{
-    maqsUso *lista = *ref;
-
-    while(lista != NULL)
-    {
-        printf("Maquinas: %d\n", lista->Maquinas);
-        lista = lista->prox;
-    }
-}
+/**
+ * @brief Função que cria lista de máquinas para o escalonamento.
+ * 
+ * @param head 
+ * @param head1 
+ */
 void criarMaquinasHelp(jobs **head, maqsUso **head1)
 {
     jobs *lista = *head;
@@ -847,6 +1013,11 @@ void criarMaquinasHelp(jobs **head, maqsUso **head1)
         lista = lista->prox;
     }
 }
+/**
+ * @brief Função que printa o escalonamento no terminal
+ * 
+ * @param head 
+ */
 void Printsss(maqsUso **head)
 {
     maqsUso *lista = *head;
@@ -868,6 +1039,11 @@ void Printsss(maqsUso **head)
         lista = lista->prox;
     }
 }
+/**
+ * @brief Guardar escalonamento em ficheiro de texto.
+ * 
+ * @param head 
+ */
 void guardarFicheiroscale(maqsUso **head)
 {
     maqsUso *lista = *head;
@@ -895,6 +1071,12 @@ void guardarFicheiroscale(maqsUso **head)
     fclose(open);
     
 }
+/**
+ * @brief Função principal para o escalonamento.
+ * 
+ * @param head 
+ * @param head1 
+ */
 void escalonamento(jobs **head, maqsUso **head1)
 {
     maqsUso *lista = *head1;
@@ -932,6 +1114,12 @@ void escalonamento(jobs **head, maqsUso **head1)
             nova = nova->prox;
         }
 }
+/**
+ * @brief Menu principal.
+ * 
+ * @param head 
+ * @param head1 
+ */
 void menu(jobs **head, maqsUso **head1)
 {
     int opcao, a, job, ope, maq, vmaq, velo;
@@ -1083,7 +1271,6 @@ void menu(jobs **head, maqsUso **head1)
                 escalonamento(head,head1);
                 Printsss(head1);
                 guardarFicheiroscale(head1);
-                GuardarFicheiro(head);
                 break;
             case 8:
                 GuardarFicheiro(head);
@@ -1093,7 +1280,13 @@ void menu(jobs **head, maqsUso **head1)
         }
     }while(opcao != 9);
 }
-
+/**
+ * @brief Menu de operações.
+ * 
+ * @param head 
+ * @param job 
+ * @param ope 
+ */
 void MenuOperacoes(jobs **head, int job, int ope)
 {
     int opcao, maquina, velo,novamaquina,novavelo;
